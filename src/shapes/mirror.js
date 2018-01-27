@@ -4,6 +4,7 @@ import Line from "./line";
 export default class Mirror {
     constructor(line) {
         this.line = line;
+        this.loss = .1;
 
         this.normal = this.line.vector.normal;
     }
@@ -18,7 +19,7 @@ export default class Mirror {
         let start = this.intersectPoint(ray);
         let r1 = new Vector(start.x + dx, start.y + dy);
 
-        let result = new Line(start, r1, ray.color, ray.width);
+        let result = new Line(start, r1, ray.color, ray.width, ray.intensity - this.loss);
 
         return result;
     }

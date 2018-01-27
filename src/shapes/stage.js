@@ -8,10 +8,7 @@ export default class Stage {
         this.height = height;
         this.emitters = [new Line(new Vector(0, 0), new Vector(1, 1), '#FFFFFF', 2)];
         this.collectors = [];
-        this.tools = [
-            new Mirror(new Line(new Vector(290, 300), new Vector(310, 310), '#0088FF', 4)),
-            new Mirror(new Line(new Vector(100, 0), new Vector(this.width, this.height), '#0088FF', 4))
-        ];
+        this.tools = [];
         this.lines = [];
 
         //Determine the maximum length for our rays
@@ -54,7 +51,10 @@ export default class Stage {
             result.end.x = result.start.x + extend.x;
             result.end.y = result.start.y + extend.y;
 
-            this.processEmitter(result);
+            if (result.intensity - Number.EPSILON > 0) {
+                this.processEmitter(result);
+            }
+
             this.lines.push(new Line(ray.start, intersectionPoint, ray.color, ray.width));
         } else {
             this.lines.push(ray);

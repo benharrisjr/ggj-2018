@@ -1,9 +1,8 @@
 export default class Ray {
-    constructor(x,y,r,g,b) {
-        this.x = x;
-        this.y = y;
-        this.r = r;
-        this.g = g;
-        this.b = b;
+    constructor(line, color, width, intesity) {
+        this.line = line;
+        this.color = color;
+        this.width = width;
+        this.intensity = intensity
     }
 }

@@ -1,11 +1,12 @@
 import Vector from "./vector";
 
 export default class Line {
-    constructor(start, end, color, width) {
+    constructor(start, end, color, width, intensity) {
         this.start = start;
         this.end = end;
         this.color = color || '#FFFFFF';
         this.width = width || 3;
+        this.intensity = intensity || 1;
     }
 
     intersects(line) {
@@ -21,11 +22,22 @@ export default class Line {
         let cmpxr = cmp.x * r.y - cmp.y * r.x;
         let cmpxs = cmp.x * s.y - cmp.y * s.x;
         let rxs = r.x * s.y - r.y * s.x;
-        if (cmpxr == 0)
+        if (cmpxr < 1) {
+            console.log(cmpxr);
+        }
+
+        if (cmpxr == 0) {
             return ((c.x - a.x < 0) != (c.x - b.x < 0))
                 || ((c.y - a.y < 0) != (c.y - b.y < 0));
-        if (rxs == 0)
+        }
+
+        if (rxs < 1) {
+            console.log(rxs);
+        }
+
+        if (rxs == 0) {
             return false;
+        }
 
         let rxsr = 1 / rxs;
         let t = cmpxs * rxsr;
