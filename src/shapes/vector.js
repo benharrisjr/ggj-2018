@@ -9,7 +9,7 @@ export default class Vector {
     }
 
     distance(vec) {
-        this.difference(vec).length;
+        return this.difference(vec).length;
     }
 
     dot(vec) {
