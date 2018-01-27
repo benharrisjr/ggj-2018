@@ -1,3 +1,5 @@
+import Vector from './vector'; 
+
 export default class Stage {
     constructor(width, height) {
         this.width = width;
