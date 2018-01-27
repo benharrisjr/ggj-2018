@@ -28,18 +28,19 @@ export default class CanvasComponent extends Component {
         context.stroke();
     }
     drawPath = (points) => {
-        this.context.clearRect(0, 0, this.refs.canvas.width, this.refs.canvas.height)
+        const context = this.refs.canvas.getContext('2d');
+        context.clearRect(0, 0, this.refs.canvas.width, this.refs.canvas.height)
         points.array.forEach((value, index) => {
             if (index % 2 == 0){
-                this.context.beginPath()
-                this.context.lineCap = 'round'
-                this.context.moveTo(value.x, value.y)
+                context.beginPath()
+                context.lineCap = 'round'
+                context.moveTo(value.x, value.y)
             }
             else{
-                this.context.lineTo(value.x, value.y)
-                this.context.lineWidth = value.w
-                this.context.strokeStyle = '#ffffff'
-                this.context.stroke()
+                context.lineTo(value.x, value.y)
+                context.lineWidth = value.w
+                context.strokeStyle = '#ffffff'
+                context.stroke()
             }
         });
         
