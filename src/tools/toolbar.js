@@ -17,7 +17,7 @@ export default class Toolbar extends Component {
         return (
             <section>
                 <p>{this.state.selectedTool}</p>
-                {tools.map((tool) => <button onClick={() => this.changeSelectedTool(tool.name)}>{tool.name}</button>)}
+                {tools.map((tool) => <button key={tool.name} onClick={() => this.changeSelectedTool(tool.name)}>{tool.name}</button>)}
             </section>
         );
     }

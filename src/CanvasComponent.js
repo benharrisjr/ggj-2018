@@ -3,9 +3,6 @@ import Stage from './shapes/stage';
 
 export default class CanvasComponent extends Component {
     state = {
-        lines: [
-            {xStart: 100, yStart: 150, xEnd: 450, yEnd: 50, color: "#ff0000"},
-        ],
         stage: new Stage(800,600),
     }
     componentDidMount() {
@@ -13,6 +10,7 @@ export default class CanvasComponent extends Component {
     }
     updateCanvas() {
         const context = this.refs.canvas.getContext('2d');
+        debugger;
         this.state.stage.lines.map((currentLine)=> {
             context.beginPath();
             context.moveTo(currentLine.start.x, currentLine.start.y);
