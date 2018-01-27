@@ -22,13 +22,14 @@ export default class Stage {
         this.simulate();
     }
 
-    processEmitter(ray) {
+    findCollision(ray) {
         //Stretch ray to maximum length for line/line intersections
         let vector = ray.vector.multiply(this.maxLength);
         ray.end.x = ray.start.x + vector.x;
         ray.end.y = ray.start.y + vector.y;
 
         let minDistance = this.maxLength;
+        let distance;
         let intersectionPoint;
         let currentPoint = null;
         let currentObj = null;
@@ -36,9 +37,38 @@ export default class Stage {
         let objs = this.tools.concat(this.collectors);
 
         objs.forEach((obj) => {
+            if (obj.interset(ray) !== false) {
+                intersectionPoint = obj.intersectPoint(ray);
+                distance = intersectionPoint.distance(ray.start);
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    currentPoint = intersectionPoint;
+                    currentObj = obj;
+                }
+            }
+        });
+    }
+
+    processEmitter(ray) {
+        //Stretch ray to maximum length for line/line intersections
+        let vector = ray.vector.multiply(this.maxLength);
+        ray.end.x = ray.start.x + vector.x;
+        ray.end.y = ray.start.y + vector.y;
+
+        let minDistance = this.maxLength;
+        let distance;
+        let intersectionPoint;
+        let currentPoint = null;
+        let currentObj = null;
+
+        let objs = this.tools.concat(this.collectors);
+        debugger
+        objs.forEach((obj) => {
             if (obj.intersect(ray) !== false) {
                 intersectionPoint = obj.intersectPoint(ray);
-                if (intersectionPoint.distance(ray.start) < minDistance) {
+                distance = intersectionPoint.distance(ray.start);
+                if (distance < minDistance && intersectionPoint.distance(ray.start) > Number.EPSILON) {
+                    minDistance = distance;
                     currentPoint = intersectionPoint;
                     currentObj = obj;
                 }
@@ -54,7 +84,7 @@ export default class Stage {
             if (result.intensity - Number.EPSILON > 0) {
                 this.processEmitter(result);
             }
-
+            console.log(`Intensity: ${result.intensity}`);
             this.lines.push(new Line(ray.start, intersectionPoint, ray.color, ray.width));
         } else {
             this.lines.push(ray);

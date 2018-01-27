@@ -22,17 +22,10 @@ export default class Line {
         let cmpxr = cmp.x * r.y - cmp.y * r.x;
         let cmpxs = cmp.x * s.y - cmp.y * s.x;
         let rxs = r.x * s.y - r.y * s.x;
-        if (Math.abs(cmpxr) < 1) {
-            console.log(cmpxr);
-        }
 
         if (Math.abs(cmpxr) <= Number.EPSILON) {
-            return ((c.x - a.x <= Number.EPSILON) != (c.x - b.x <= Number.EPSILON))
-                || ((c.y - a.y <= Number.EPSILON) != (c.y - b.y <= Number.EPSILON));
-        }
-
-        if (Math.abs(rxs) < 1) {
-            console.log(rxs);
+            return ((c.x - a.x < 0) != (c.x - b.x < 0))
+                || ((c.y - a.y < 0) != (c.y - b.y < 0));
         }
 
         if (Math.abs(rxs) <= Number.EPSILON) {
@@ -56,6 +49,9 @@ export default class Line {
             return new Vector(0, 0);
         let intersectionX = ((a.x * b.y - a.y * b.x) * (c.x - d.x) - (a.x - b.x) * (c.x * d.y - c.y * d.x)) / divider;
         let intersectionY = ((a.x * b.y - a.y * b.x) * (c.y - d.y) - (a.y - b.y) * (c.x * d.y - c.y * d.x)) / divider;
+
+        // intersectionX = Math.round(intersectionX * 100) / 100
+        // intersectionY = Math.round(intersectionY * 100) / 100
 
         return new Vector(intersectionX, intersectionY);
     }
