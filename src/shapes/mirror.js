@@ -20,7 +20,7 @@ export default class Mirror {
     }
 
     intersect(ray) {
-        return this.line.intersect(ray);
+        return this.line.intersects(ray);
     }
 
     intersectPoint(ray) {
