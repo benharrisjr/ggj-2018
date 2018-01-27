@@ -8,18 +8,22 @@ export default class CanvasComponent extends Component {
     componentDidMount() {
         this.updateCanvas();
     }
-    updateCanvas() {
+    drawLine = (line) => {
         const context = this.refs.canvas.getContext('2d');
-        debugger;
-        this.state.stage.lines.map((currentLine)=> {
-            context.beginPath();
-            context.moveTo(currentLine.start.x, currentLine.start.y);
-            context.lineTo(currentLine.end.x, currentLine.end.y);
-            context.lineWidth = 10;
-            context.strokeStyle = "#ffffff";
-            context.stroke();
-            }
-        );
+        context.beginPath();
+        context.moveTo(line.start.x, line.start.y);
+        context.lineTo(line.end.x, line.end.y);
+        context.lineWidth = 10;
+        context.strokeStyle = "#ffffff";
+        context.stroke();
+    }
+    updateCanvas() {
+        
+        // debugger;
+        // this.stage.tools[0].line
+        // this.drawLine()
+        this.state.stage.lines.map((currentLine) => this.drawLine(currentLine));
+        this.drawLine(this.state.stage.tools[0].line);
         
     }
     render() {
