@@ -11,6 +11,7 @@ export default class Stage {
 
     add(tool) {
         this.tools.push(tool);
+        this.simulate();
     }
 
     simulate() {
