@@ -38,7 +38,7 @@ export default class Stage {
 
         let objs = this.tools.concat(this.collectors);
 
-        this.objs.forEach((obj) => {
+        objs.forEach((obj) => {
             if (obj.intersect(ray) !== false) {
                 intersectionPoint = obj.intersectPoint(ray);
                 if (intersectionPoint.distance(ray.start) < minDistance) {
