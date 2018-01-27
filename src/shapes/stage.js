@@ -2,7 +2,11 @@ export default class Stage {
     constructor(width, height) {
         this.width = width;
         this.height = height;
-        this.emitters = [];
+        this.emitters = [{
+            start: new Vector(0, 0),
+            end: new Vector(100, 100),
+            color: '#FFFFFF'
+        }];
         this.collectors = [];
         this.tools = [];
         this.lines = [];
@@ -38,6 +42,8 @@ export default class Stage {
                 },
                 color: '#FF0000'
             }
-        ]
+        ];
+
+        this.lines.push(this.emitters);
     }
 }
