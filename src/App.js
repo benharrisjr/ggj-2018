@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import logo from './title.png';
 import './App.css';
 import CanvasComponent from './CanvasComponent';
 import Toolbar from './tools/toolbar';
@@ -10,7 +10,6 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
         </header>
         <CanvasComponent />
         <Toolbar />
