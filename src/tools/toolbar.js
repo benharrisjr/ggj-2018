@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Mirror from './../shapes/mirror';
+import Prism from './../shapes/prism';
 
 export default class Toolbar extends Component {
     state = {

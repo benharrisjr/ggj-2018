@@ -1,10 +1,11 @@
 import Vector from "./vector";
 
 export default class Line {
-    constructor(start, end, color) {
+    constructor(start, end, color, width) {
         this.start = start;
         this.end = end;
         this.color = color || '#FFFFFF';
+        this.width = width || 5;
     }
 
     intersects(line) {
