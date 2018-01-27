@@ -1,24 +1,30 @@
-let Vector = require('./vector');
+import Vector from "./vector";
 
-class Mirror {
-    constructor(p1, p2) {
-        this.p1 = p1;
-        this.p2 = p2;
+export default class Mirror {
+    constructor(line) {
+        this.line = line;
 
-        this.vector = p1.difference(p2);
-        this.normal = this.vector.normal;
+        this.normal = this.line.vector.normal;
     }
 
     cast(ray) {
-        let dot = 2 * ray.dot(this.normal)
+        let refRay = ray.end.difference(ray.start).normalize;
+        let dot = 2 * refRay.dot(this.normal)
 
-        let dx = ray.x - dot * this.normal.x
-        let dy = ray.y - dot * this.normal.y
-
+        let dx = refRay.x - dot * this.normal.x
+        let dy = refRay.y - dot * this.normal.y
 
         let r1 = new Vector(dx, dy);
 
         return r1;
+    }
+
+    intersect(ray) {
+        return this.line.intersect(ray);
+    }
+
+    intersectPoint(ray) {
+        return this.line.intersectPoint(ray);
     }
 }
 

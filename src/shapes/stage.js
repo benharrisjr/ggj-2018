@@ -1,4 +1,6 @@
-import Vector from './vector'; 
+import Vector from './vector';
+import Line from './line';
+import Mirror from './mirror';
 
 export default class Stage {
     constructor(width, height) {
@@ -6,12 +8,18 @@ export default class Stage {
         this.height = height;
         this.emitters = [{
             start: new Vector(0, 0),
-            end: new Vector(100, 100),
+            end: new Vector(1, 1),
             color: '#FFFFFF'
         }];
         this.collectors = [];
-        this.tools = [];
+        this.tools = [
+            new Mirror(new Line(new Vector(20, 10), new Vector(10, 20)))
+        ];
         this.lines = [];
+
+        //Determine the maximum length for our rays
+        this.maxLength = Math.sqrt(width * width + height * height);
+
         this.simulate();
     }
 
@@ -20,15 +28,37 @@ export default class Stage {
         this.simulate();
     }
 
-    simulate() {
-        this.lines = [
-            {
-                start: new Vector(20,40),
-                end: new Vector(this.width/2, this.height/2),
-                color: '#FF0000'
-            }
-        ];
+    processEmitter(ray) {
+        //Stretch ray to maximum length for line/line intersections
+        let vector = ray.vector.multiply(this.maxLength);
+        ray.end.x = ray.start.x + vector.x;
+        ray.end.y = ray.start.y + vector.y;
 
-        this.lines = this.lines.concat(this.emitters);
+        let minDistance = this.maxLength;
+        let intersectionPoint;
+        let currentPoint = null;
+        let currentTool = null;
+
+        this.tools.forEach((tool) => {
+            if (tool.intersect(ray) !== false) {
+                intersectionPoint = tool.intersectPoint(ray);
+                if (intersectionPoint.distance(ray.start) < minDistance) {
+                    currentPoint = intersectionPoint;
+                    currentTool = tool;
+                }
+            }
+        });
+
+        if (currentTool) {
+            // let rays = currentTool.cast(ray);
+            // rays.forEach(this.processEmitter.bind(this));
+            this.lines.push(new Line(ray.start, intersectionPoint));
+        } else {
+            this.lines.push(ray);
+        }
+    }
+
+    simulate() {
+        this.emitters.forEach(this.processEmitter.bind(this));
     }
 }
