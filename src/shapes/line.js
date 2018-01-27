@@ -5,7 +5,7 @@ export default class Line {
         this.start = start;
         this.end = end;
         this.color = color || '#FFFFFF';
-        this.width = width || 5;
+        this.width = width || 3;
     }
 
     intersects(line) {

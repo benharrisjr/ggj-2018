@@ -5,6 +5,13 @@ import CanvasComponent from './CanvasComponent';
 import Toolbar from './tools/toolbar';
 
 class App extends Component {
+  state = {
+    selectedToolIndex: 0,
+  }
+  changeSelectedToolIndex = (toolIndex) => {
+    this.setState({selectedToolIndex: toolIndex})
+    console.log(this.state)
+  }
   render() {
     return (
       <div className="App">
@@ -12,7 +19,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
         </header>
         <CanvasComponent />
-        <Toolbar />
+        <Toolbar selectedTool={this.state.selectedToolIndex} changeSelectedTool={this.changeSelectedToolIndex}/>
       </div>
     );
   }
