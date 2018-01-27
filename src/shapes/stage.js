@@ -34,20 +34,22 @@ export default class Stage {
         let minDistance = this.maxLength;
         let intersectionPoint;
         let currentPoint = null;
-        let currentTool = null;
+        let currentObj = null;
 
-        this.tools.forEach((tool) => {
-            if (tool.intersect(ray) !== false) {
-                intersectionPoint = tool.intersectPoint(ray);
+        let objs = this.tools.concat(this.collectors);
+
+        this.objs.forEach((obj) => {
+            if (obj.intersect(ray) !== false) {
+                intersectionPoint = obj.intersectPoint(ray);
                 if (intersectionPoint.distance(ray.start) < minDistance) {
                     currentPoint = intersectionPoint;
-                    currentTool = tool;
+                    currentObj = obj;
                 }
             }
         });
 
-        if (currentTool) {
-            let result = currentTool.cast(ray);
+        if (currentObj) {
+            let result = currentObj.cast(ray);
             let extend = result.end.difference(result.start).multiply(this.maxLength);
             result.end.x = result.start.x + extend.x;
             result.end.y = result.start.y + extend.y;
