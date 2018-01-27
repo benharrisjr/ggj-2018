@@ -10,9 +10,6 @@ export default class CanvasComponent extends Component {
         x: 0,
         y: 0,
     }
-    onMouseMove = (e) => {
-        this.setState({ x: e.screenX, y: e.screenY });
-    }
     componentDidMount() {
         this.updateCanvas();
     }
@@ -25,20 +22,20 @@ export default class CanvasComponent extends Component {
         context.strokeStyle = line.color;
         context.stroke();
     }
-    placeTool = () => {
-        console.log("hey");
+    placeTool = (e) => {
         console.log(this.state.stage);
-        this.state.stage.add(new Mirror(new Line(new Vector(this.state.x, this.state.y), new Vector(this.width, this.height), '#0088FF', 10)));
+        const context = this.refs.canvas
+        const rect = context.getBoundingClientRect();
+        console.log(rect);
+        this.state.stage.add(new Mirror(new Line(new Vector(e.clientX - rect.x, e.clientY - rect.y), new Vector(this.state.stage.width, this.state.stage.height), '#0088FF', 10)));
         this.setState({ key: Math.random() });
     }
-    updateCanvas() {
-        
-        // debugger;
-        // this.stage.tools[0].line
-        // this.drawLine()
-        this.state.stage.lines.map((currentLine) => this.drawLine(currentLine));
-        this.drawLine(this.state.stage.tools[0].line);
-        
+    updateCanvas = () => {
+        this.state.stage.lines.forEach((currentLine) => this.drawLine(currentLine));
+        this.state.stage.tools.forEach((currentTool) => this.drawLine(currentTool.line));
+    }
+    componentDidUpdate = () => {
+        this.updateCanvas();
     }
     render() {
         const { x, y } = this.state;
