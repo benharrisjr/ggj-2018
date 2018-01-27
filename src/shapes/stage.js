@@ -23,29 +23,12 @@ export default class Stage {
     simulate() {
         this.lines = [
             {
-                start: {
-                    x: 0,
-                    y: 0
-                },
-                end: {
-                    x: this.width,
-                    y: this.height
-                },
-                color: '#FFFFFF'
-            },
-            {
-                start: {
-                    x: 20,
-                    y: 40
-                },
-                end: {
-                    x: this.width / 2,
-                    y: this.height / 2
-                },
+                start: new Vector(20,40),
+                end: new Vector(this.width/2, this.height/2),
                 color: '#FF0000'
             }
         ];
 
-        // this.lines.push(this.emitters);
+        this.lines = this.lines.concat(this.emitters);
     }
 }
