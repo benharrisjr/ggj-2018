@@ -50,7 +50,7 @@ export default class Stage {
             // rays.forEach(this.processEmitter.bind(this));
             this.lines.push(new Line(ray.start, intersectionPoint));
         } else {
-            this.lines.push(vector);
+            this.lines.push(new Line(ray.start, new Vector(ray.start.x + vector.x, ray.start.y + vector.y)));
         }
     }
 
