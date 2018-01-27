@@ -5,25 +5,28 @@ export default class CanvasComponent extends Component {
     state = {
         lines: [
             {xStart: 100, yStart: 150, xEnd: 450, yEnd: 50, color: "#ff0000"},
-        ]
+        ],
+        stage: new Stage(800,600),
     }
     componentDidMount() {
         this.updateCanvas();
     }
     updateCanvas() {
-        console.log(Stage);
         const context = this.refs.canvas.getContext('2d');
+        this.state.stage.lines.map((currentLine)=> {
+            context.beginPath();
+            context.moveTo(currentLine.start.x, currentLine.start.y);
+            context.lineTo(currentLine.end.x, currentLine.end.y);
+            context.lineWidth = 10;
+            context.strokeStyle = currentLine.color;
+            context.stroke();
+            }
+        );
         
-        context.beginPath();
-        context.moveTo(100, 150);
-        context.lineTo(450, 50);
-        context.lineWidth = 10;
-        context.strokeStyle = '#ff0000';
-        context.stroke();
     }
     render() {
         return (
-            <canvas ref="canvas" width={300} height={300}/>
+            <canvas ref="canvas" width={this.state.stage.width} height={this.state.stage.height} style={{backgroundColor:"#000"}}/>
         );
     }
 }

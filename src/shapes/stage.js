@@ -46,6 +46,6 @@ export default class Stage {
             }
         ];
 
-        this.lines.push(this.emitters);
+        // this.lines.push(this.emitters);
     }
 }
