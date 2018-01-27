@@ -27,5 +27,3 @@ export default class Mirror {
         return this.line.intersectPoint(ray);
     }
 }
-
-module.exports = Mirror;
