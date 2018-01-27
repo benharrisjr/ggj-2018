@@ -7,8 +7,10 @@ import Mirror from './shapes/mirror'
 export default class CanvasComponent extends Component {
     state = {
         stage: new Stage(800,600),
-        x: 0,
-        y: 0,
+        startX: 0,
+        startY: 0,
+        endX: 0,
+        endY: 0,
     }
     componentDidMount() {
         this.updateCanvas();
@@ -22,12 +24,23 @@ export default class CanvasComponent extends Component {
         context.strokeStyle = line.color;
         context.stroke();
     }
-    placeTool = (e) => {
-        console.log(this.state.stage);
+    onMouseDown(e) {
         const context = this.refs.canvas
         const rect = context.getBoundingClientRect();
-        console.log(rect);
-        this.state.stage.add(new Mirror(new Line(new Vector(e.clientX - rect.x, e.clientY - rect.y), new Vector(this.state.stage.width, this.state.stage.height), '#0088FF', 10)));
+        this.startX = e.clientX - rect.x
+        this.startY = e.clientY - rect.y;
+    }
+    onMouseUp(e) {
+        const context = this.refs.canvas
+        const rect = context.getBoundingClientRect();
+        this.endX = e.clientX - rect.x;
+        this.endY = e.clientY - rect.y;
+        this.placeTool();
+    }
+    placeTool = (e) => {
+        const context = this.refs.canvas
+        const rect = context.getBoundingClientRect();
+        this.state.stage.add(new Mirror(new Line(new Vector(this.startX, this.startY), new Vector(this.endX, this.endY), '#0088FF', 10)));
         this.setState({ key: Math.random() });
     }
     updateCanvas = () => {
@@ -42,7 +55,7 @@ export default class CanvasComponent extends Component {
         return (
             <div>
             <h1>Mouse coordinates: { x } { y }</h1>
-            <canvas key={this.state.key} onClick={this.placeTool} onMouseMove={this.onMouseMove} ref="canvas" width={this.state.stage.width} height={this.state.stage.height} style={{backgroundColor:"#000"}}/>
+            <canvas key={this.state.key} onClick={this.placeTool} onMouseDown={(e) => this.onMouseDown(e)} onMouseUp={(e) => this.onMouseUp(e)} ref="canvas" width={this.state.stage.width} height={this.state.stage.height} style={{backgroundColor:"#000"}}/>
             </div>
         );
     }
