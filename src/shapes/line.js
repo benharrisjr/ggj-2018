@@ -34,8 +34,8 @@ export default class Line {
     intersectPoint(line) {
         let a = this.start;
         let b = this.end;
-        let c = wall.p1;
-        let d = wall.p2;
+        let c = line.p1;
+        let d = line.p2;
 
         let divider = ((a.x - b.x) * (c.y - d.y) - (a.y - b.y) * (c.x - d.x));
         if (divider == 0)

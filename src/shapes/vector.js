@@ -8,6 +8,10 @@ export default class Vector {
         return new Vector(this.x - vec.x, this.y - vec.y);
     }
 
+    distance(vec) {
+        this.difference(vec).length;
+    }
+
     dot(vec) {
         return this.x * vec.x + this.y * vec.y;
     }

@@ -1,6 +1,6 @@
-let Vector = require('./vector');
+import Vector from "./vector";
 
-class Mirror {
+export default class Mirror {
     constructor(line) {
         this.line = line;
 
@@ -21,6 +21,10 @@ class Mirror {
 
     intersect(ray) {
         return this.line.intersect(ray);
+    }
+
+    intersectPoint(ray) {
+        return this.line.intersectPoint(ray);
     }
 }
 

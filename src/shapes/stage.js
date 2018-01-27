@@ -1,4 +1,6 @@
-import Vector from './vector'; 
+import Vector from './vector';
+import Line from './line';
+import Mirror from './mirror';
 
 export default class Stage {
     constructor(width, height) {
@@ -10,7 +12,9 @@ export default class Stage {
             color: '#FFFFFF'
         }];
         this.collectors = [];
-        this.tools = [];
+        this.tools = [
+            new Mirror(new Line(new Vector(20, 10), new Vector(10, 20)))
+        ];
         this.lines = [];
 
         //Determine the maximum length for our rays
@@ -32,30 +36,29 @@ export default class Stage {
 
         let minDistance = this.maxLength;
         let intersectionPoint;
+        let currentPoint = null;
+        let currentTool = null;
 
         this.tools.forEach((tool) => {
             if (tool.intersect(ray) !== false) {
-
+                intersectionPoint = tool.intersectPoint(ray);
+                if (intersectionPoint.distance(ray.start) < minDistance) {
+                    currentPoint = intersectionPoint;
+                    currentTool = tool;
+                }
             }
         });
 
+        if (currentTool) {
+            // let rays = currentTool.cast(ray);
+            // rays.forEach(this.processEmitter.bind(this));
+            this.lines.push(new Line(ray.start, intersectionPoint));
+        } else {
+            this.lines.push(ray);
+        }
     }
 
     simulate() {
         this.emitters.forEach(this.processEmitter.bind(this));
-        this.lines = [
-            {
-                start: new Vector(0, 0),
-                end: new Vector(this.width, this.height),
-                color: '#FFFFFF'
-            },
-            {
-                start: new Vector(20, 40),
-                end: new Vector(this.width / 2, this.height / 2),
-                color: '#FF0000'
-            }
-        ];
-
-        // this.lines.push(this.emitters);
     }
 }
