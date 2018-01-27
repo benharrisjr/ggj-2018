@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import CanvasComponent from './CanvasComponent';
+import Toolbar from './tools/toolbar';
 
 class App extends Component {
   render() {
@@ -12,6 +13,7 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <CanvasComponent />
+        <Toolbar />
       </div>
     );
   }
