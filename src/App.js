@@ -10,10 +10,6 @@ class App extends Component {
     stage: new Stage(800, 600),
     selectedToolIndex: 0,
   }
-  changeSelectedToolIndex = (toolIndex) => {
-    this.setState({selectedToolIndex: toolIndex})
-    console.log(this.state)
-  }
   removeTools = () => {
     this.state.stage.removeAll();
     this.setState({ key: Math.random() });
