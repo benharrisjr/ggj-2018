@@ -7,10 +7,6 @@ import Mirror from './shapes/mirror'
 export default class CanvasComponent extends Component {
     state = {
         stage: new Stage(800, 600),
-        startX: 0,
-        startY: 0,
-        endX: 0,
-        endY: 0,
     }
     componentDidMount() {
         this.updateCanvas();
@@ -24,13 +20,26 @@ export default class CanvasComponent extends Component {
         context.strokeStyle = line.color;
         context.stroke();
     }
+    // onMouseMove(e) {
+    //     if (this.state.isMouseDown) {
+    //         const context = this.refs.canvas.getContext('2d');
+    //         context.beginPath();
+    //         context.moveTo(this.start.x, this.start.y);
+    //         context.lineTo(e.clientX, e.clienty);
+    //         context.lineWidth = 3;
+    //         context.strokeStyle = "#FFFFFF";
+    //         context.stroke();
+    //     };
+    // }
     onMouseDown(e) {
         const context = this.refs.canvas
         const rect = context.getBoundingClientRect();
         this.startX = e.clientX - rect.x
         this.startY = e.clientY - rect.y;
+        this.mouseDown = true;
     }
     onMouseUp(e) {
+        this.mouseDown = false;
         const context = this.refs.canvas
         const rect = context.getBoundingClientRect();
         this.endX = e.clientX - rect.x;
