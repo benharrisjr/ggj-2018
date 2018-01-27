@@ -21,6 +21,14 @@ export default class Stage {
         this.tools.push(tool);
         this.simulate();
     }
+    undo() {
+
+    }
+
+    removeAll() {
+        this.tools.length = 0;
+        this.simulate();
+    }
 
     findCollision(ray) {
         //Stretch ray to maximum length for line/line intersections
