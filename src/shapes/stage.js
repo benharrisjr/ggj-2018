@@ -62,6 +62,7 @@ export default class Stage {
     }
 
     simulate() {
+        this.lines = [];
         this.emitters.forEach(this.processEmitter.bind(this));
     }
 }

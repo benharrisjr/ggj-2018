@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
 import Stage from './shapes/stage';
+import Vector from './shapes/vector';
+import Line from './shapes/line';
+import Mirror from './shapes/mirror'
 
 export default class CanvasComponent extends Component {
     state = {
         stage: new Stage(800, 600),
+        startX: 0,
+        startY: 0,
+        endX: 0,
+        endY: 0,
     }
     componentDidMount() {
         this.updateCanvas();
@@ -17,20 +24,39 @@ export default class CanvasComponent extends Component {
         context.strokeStyle = line.color;
         context.stroke();
     }
-    updateCanvas() {
-
-        // debugger;
-        // this.stage.tools[0].line
-        // this.drawLine()
-        this.state.stage.lines.map((currentLine) => this.drawLine(currentLine));
-        this.state.stage.tools.forEach((tool) => {
-            this.drawLine(tool.line);
-        });
-
+    onMouseDown(e) {
+        const context = this.refs.canvas
+        const rect = context.getBoundingClientRect();
+        this.startX = e.clientX - rect.x
+        this.startY = e.clientY - rect.y;
+    }
+    onMouseUp(e) {
+        const context = this.refs.canvas
+        const rect = context.getBoundingClientRect();
+        this.endX = e.clientX - rect.x;
+        this.endY = e.clientY - rect.y;
+        this.placeTool();
+    }
+    placeTool = (e) => {
+        const context = this.refs.canvas
+        const rect = context.getBoundingClientRect();
+        this.state.stage.add(new Mirror(new Line(new Vector(this.startX, this.startY), new Vector(this.endX, this.endY), '#0088FF', 10)));
+        this.setState({ key: Math.random() });
+    }
+    updateCanvas = () => {
+        this.state.stage.lines.forEach((currentLine) => this.drawLine(currentLine));
+        this.state.stage.tools.forEach((currentTool) => this.drawLine(currentTool.line));
+    }
+    componentDidUpdate = () => {
+        this.updateCanvas();
     }
     render() {
+        const { x, y } = this.state;
         return (
-            <canvas ref="canvas" width={this.state.stage.width} height={this.state.stage.height} style={{ backgroundColor: "#000" }} />
+            <div>
+                <h1>Mouse coordinates: {x} {y}</h1>
+                <canvas key={this.state.key} onClick={this.placeTool} onMouseDown={(e) => this.onMouseDown(e)} onMouseUp={(e) => this.onMouseUp(e)} ref="canvas" width={this.state.stage.width} height={this.state.stage.height} style={{ backgroundColor: "#000" }} />
+            </div>
         );
     }
 }
