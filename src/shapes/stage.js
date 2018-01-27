@@ -77,6 +77,5 @@ export default class Stage {
                 rays.push(ray);
             }
         }
-        //this.emitters.forEach(this.processEmitter.bind(this));
     }
 }
