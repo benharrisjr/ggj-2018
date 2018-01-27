@@ -13,7 +13,7 @@ export default class CanvasComponent extends Component {
         context.beginPath();
         context.moveTo(line.start.x, line.start.y);
         context.lineTo(line.end.x, line.end.y);
-        context.lineWidth = 10;
+        context.lineWidth = line.width;
         context.strokeStyle = line.color;
         context.stroke();
     }

@@ -6,10 +6,10 @@ export default class Stage {
     constructor(width, height) {
         this.width = width;
         this.height = height;
-        this.emitters = [new Line(new Vector(0, 0), new Vector(1, 1))];
+        this.emitters = [new Line(new Vector(0, 0), new Vector(1, 1), '#FFFFFF', 3)];
         this.collectors = [];
         this.tools = [
-            new Mirror(new Line(new Vector(0, this.height / 2), new Vector(this.width, this.height / 2), '#0088FF'))
+            new Mirror(new Line(new Vector(0, this.height / 2), new Vector(this.width, this.height / 2), '#0088FF', 10))
         ];
         this.lines = [];
 
