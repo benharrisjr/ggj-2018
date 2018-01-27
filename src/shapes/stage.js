@@ -9,7 +9,7 @@ export default class Stage {
         this.emitters = [new Line(new Vector(0, 0), new Vector(1, 1))];
         this.collectors = [];
         this.tools = [
-            new Mirror(new Line(new Vector(20, 10), new Vector(10, 20)))
+            new Mirror(new Line(new Vector(0, this.height / 2), new Vector(this.width, this.height / 2), '#0088FF'))
         ];
         this.lines = [];
 
