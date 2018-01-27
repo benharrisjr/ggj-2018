@@ -16,7 +16,7 @@ export default class CanvasComponent extends Component {
             context.moveTo(currentLine.start.x, currentLine.start.y);
             context.lineTo(currentLine.end.x, currentLine.end.y);
             context.lineWidth = 10;
-            context.strokeStyle = currentLine.color;
+            context.strokeStyle = "#ffffff";
             context.stroke();
             }
         );
