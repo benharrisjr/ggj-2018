@@ -18,7 +18,7 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
         </header>
-        <CanvasComponent />
+        <CanvasComponent selectedTool={this.state.selectedToolIndex} />
         <Toolbar selectedTool={this.state.selectedToolIndex} changeSelectedTool={this.changeSelectedToolIndex}/>
       </div>
     );

@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
 import Stage from './shapes/stage';
+import Vector from './shapes/vector';
+import Line from './shapes/line';
+import Mirror from './shapes/mirror'
 
 export default class CanvasComponent extends Component {
     state = {
         stage: new Stage(800,600),
+        x: 0,
+        y: 0,
+    }
+    onMouseMove = (e) => {
+        this.setState({ x: e.screenX, y: e.screenY });
     }
     componentDidMount() {
         this.updateCanvas();
@@ -17,6 +25,12 @@ export default class CanvasComponent extends Component {
         context.strokeStyle = line.color;
         context.stroke();
     }
+    placeTool = () => {
+        console.log("hey");
+        console.log(this.state.stage);
+        this.state.stage.add(new Mirror(new Line(new Vector(this.state.x, this.state.y), new Vector(this.width, this.height), '#0088FF', 10)));
+        this.setState({ key: Math.random() });
+    }
     updateCanvas() {
         
         // debugger;
@@ -27,8 +41,12 @@ export default class CanvasComponent extends Component {
         
     }
     render() {
+        const { x, y } = this.state;
         return (
-            <canvas ref="canvas" width={this.state.stage.width} height={this.state.stage.height} style={{backgroundColor:"#000"}}/>
+            <div>
+            <h1>Mouse coordinates: { x } { y }</h1>
+            <canvas key={this.state.key} onClick={this.placeTool} onMouseMove={this.onMouseMove} ref="canvas" width={this.state.stage.width} height={this.state.stage.height} style={{backgroundColor:"#000"}}/>
+            </div>
         );
     }
 }
