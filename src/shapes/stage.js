@@ -46,9 +46,13 @@ export default class Stage {
         });
 
         if (currentTool) {
-            // let rays = currentTool.cast(ray);
-            // rays.forEach(this.processEmitter.bind(this));
+            let result = currentTool.cast(ray);
+            let extend = result.end.difference(result.start).multiply(this.maxLength);
+            result.end.x = result.start.x + extend.x;
+            result.end.y = result.start.y + extend.y;
+
             this.lines.push(new Line(ray.start, intersectionPoint));
+            this.lines.push(result);
         } else {
             this.lines.push(ray);
         }

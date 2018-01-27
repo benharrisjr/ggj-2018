@@ -1,4 +1,5 @@
 import Vector from "./vector";
+import Line from "./line";
 
 export default class Mirror {
     constructor(line) {
@@ -8,15 +9,18 @@ export default class Mirror {
     }
 
     cast(ray) {
-        let refRay = ray.end.difference(ray.start).normalize;
+        let refRay = ray.end.difference(ray.start).normalized;
         let dot = 2 * refRay.dot(this.normal)
 
         let dx = refRay.x - dot * this.normal.x
         let dy = refRay.y - dot * this.normal.y
 
-        let r1 = new Vector(dx, dy);
+        let start = this.intersectPoint(ray);
+        let r1 = new Vector(start.x + dx, start.y + dy);
 
-        return r1;
+        let result = new Line(start, r1, ray.color, ray.width);
+
+        return result;
     }
 
     intersect(ray) {
