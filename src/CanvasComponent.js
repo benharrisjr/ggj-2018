@@ -3,7 +3,7 @@ import Stage from './shapes/stage';
 
 export default class CanvasComponent extends Component {
     state = {
-        stage: new Stage(800,600),
+        stage: new Stage(800, 600),
     }
     componentDidMount() {
         this.updateCanvas();
@@ -18,17 +18,19 @@ export default class CanvasComponent extends Component {
         context.stroke();
     }
     updateCanvas() {
-        
+
         // debugger;
         // this.stage.tools[0].line
         // this.drawLine()
         this.state.stage.lines.map((currentLine) => this.drawLine(currentLine));
-        this.drawLine(this.state.stage.tools[0].line);
-        
+        this.state.stage.tools.forEach((tool) => {
+            this.drawLine(tool.line);
+        });
+
     }
     render() {
         return (
-            <canvas ref="canvas" width={this.state.stage.width} height={this.state.stage.height} style={{backgroundColor:"#000"}}/>
+            <canvas ref="canvas" width={this.state.stage.width} height={this.state.stage.height} style={{ backgroundColor: "#000" }} />
         );
     }
 }
