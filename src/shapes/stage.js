@@ -4,12 +4,16 @@ export default class Stage {
         this.height = height;
         this.emitters = [{
             start: new Vector(0, 0),
-            end: new Vector(100, 100),
+            end: new Vector(1, 1),
             color: '#FFFFFF'
         }];
         this.collectors = [];
         this.tools = [];
         this.lines = [];
+
+        //Determine the maximum length for our rays
+        this.maxLength = Math.sqrt(width * width + height * height);
+
         this.simulate();
     }
 
@@ -18,28 +22,34 @@ export default class Stage {
         this.simulate();
     }
 
+    processEmitter(ray) {
+        //Stretch ray to maximum length for line/line intersections
+        let vector = ray.vector.multiply(this.maxLength);
+        ray.end.x = ray.start.x + vector.x;
+        ray.end.y = ray.start.y + vector.y;
+
+        let minDistance = this.maxLength;
+        let intersectionPoint;
+
+        this.tools.forEach((tool) => {
+            if (tool.intersect(ray) !== false) {
+
+            }
+        });
+
+    }
+
     simulate() {
+        this.emitters.forEach(this.processEmitter.bind(this));
         this.lines = [
             {
-                start: {
-                    x: 0,
-                    y: 0
-                },
-                end: {
-                    x: this.width,
-                    y: this.height
-                },
+                start: new Vector(0, 0),
+                end: new Vector(this.width, this.height),
                 color: '#FFFFFF'
             },
             {
-                start: {
-                    x: 20,
-                    y: 40
-                },
-                end: {
-                    x: this.width / 2,
-                    y: this.height / 2
-                },
+                start: new Vector(20, 40),
+                end: new Vector(this.width / 2, this.height / 2),
                 color: '#FF0000'
             }
         ];

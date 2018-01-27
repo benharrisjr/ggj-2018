@@ -12,6 +12,10 @@ export default class Vector {
         return this.x * vec.x + this.y * vec.y;
     }
 
+    multiply(scalar) {
+        return new Vector(this.x * scalar, this.y * scalar);
+    }
+
     subtract(vec) {
         this.x -= vec.x;
         this.y -= vec.y;
