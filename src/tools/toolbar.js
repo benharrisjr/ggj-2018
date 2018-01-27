@@ -9,7 +9,8 @@ export default class Toolbar extends Component {
         ]
         return (
             <section>
-                <p>{this.props.selectedTool}</p>
+                <button onClick={this.props.removeTools}>Remove All</button>
+                <p>{() => this.props.selectedTool()}</p>
                 {tools.map((tool, index) => <button key={tool.name} onClick={() => this.props.changeSelectedTool(index)}>{tool.name}</button>)}
             </section>
         );
