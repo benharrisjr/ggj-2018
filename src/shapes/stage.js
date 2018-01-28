@@ -1,13 +1,15 @@
 import Vector from './vector';
 import Line from './line';
 import Mirror from './mirror';
+import Collector from './collector';
+import Circle from './circle';
 
 export default class Stage {
     constructor(width, height) {
         this.width = width;
         this.height = height;
         this.emitters = [new Line(new Vector(0, 0), new Vector(1, 1), '#FFFFFF', 2)];
-        this.collectors = [];
+        this.collectors = [new Collector(new Circle(new Vector(600, 400), 10))];
         this.tools = [];
         this.lines = [];
 

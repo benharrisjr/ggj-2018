@@ -3,11 +3,20 @@ export default class Collector {
         this.circle = circle;
     }
 
+    cast(ray) {
+        let point = this.intersectsWith(ray);
+        console.log(`Success: ${point}`);
+    }
+
     intersect(ray) {
+        return this.intersectsWith(ray);
+    }
+
+    intersectsWith(ray) {
         return this.circle.intersectsWith(ray);
     }
 
-    intersetPoint(ray) {
-
+    intersectPoint(ray) {
+        return this.intersectsWith(ray);
     }
 }
