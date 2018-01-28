@@ -181,6 +181,12 @@ export default class CanvasComponent extends Component {
         }
     }
     updateCanvas = () => {
+        console.log("blockers");
+        console.log(this.props.stage.blockers);
+        console.log("fixed tools");
+        console.log(this.props.stage.fixedTools);
+        console.log("mirrors");
+        console.log(this.props.stage.tools);
         this.props.stage.blockers.forEach((blocker) => this.drawTool(blocker));
         this.props.stage.fixedTools.forEach((tool) => this.drawTool(tool));
         this.props.stage.tools.forEach((currentTool) => this.drawTool(currentTool));
