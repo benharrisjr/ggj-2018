@@ -156,6 +156,7 @@ export default class CanvasComponent extends Component {
         }
     }
     updateCanvas = () => {
+        this.props.stage.simulate();
         this.props.stage.lines.forEach((currentLine) => this.drawLine(currentLine));
         this.props.stage.tools.forEach((currentTool) => this.drawLine(currentTool.line));
         this.props.stage.collectors.forEach((collector) => this.drawCollector(collector));
@@ -167,8 +168,6 @@ export default class CanvasComponent extends Component {
     }
     undoTool = () => {
         this.props.stage.undo();
-        const context = this.refs.canvas.getContext('2d');
-        context.clearRect(0, 0, this.refs.canvas.width, this.refs.canvas.height)
         this.updateCanvas();
     }
     componentDidUpdate = () => {
