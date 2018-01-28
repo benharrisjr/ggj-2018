@@ -9,13 +9,13 @@ export default class CanvasComponent extends Component {
             array: [],
             size: 0,
         },
-        mirrors:[],
+        mirrors: [],
         isDrawing: false,
         isMoving: false,
     }
     componentDidMount() {
         this.context = this.refs.canvas.getContext('2d'),
-        this.rect = this.refs.canvas.getBoundingClientRect();
+            this.rect = this.refs.canvas.getBoundingClientRect();
         this.updateCanvas();
     }
     drawLine = (line) => {
@@ -31,19 +31,19 @@ export default class CanvasComponent extends Component {
         const context = this.refs.canvas.getContext('2d');
         context.clearRect(0, 0, this.refs.canvas.width, this.refs.canvas.height)
         points.array.forEach((value, index) => {
-            if (index % 2 == 0){
+            if (index % 2 == 0) {
                 context.beginPath()
                 context.lineCap = 'round'
                 context.moveTo(value.x, value.y)
             }
-            else{
+            else {
                 context.lineTo(value.x, value.y)
                 context.lineWidth = value.w
                 context.strokeStyle = '#ffffff'
                 context.stroke()
             }
         });
-        
+
     }
     onMouseMove(e) {
         if (this.state.isDrawing) {
@@ -59,21 +59,21 @@ export default class CanvasComponent extends Component {
     onMouseDown(e) {
         this.state.isDrawing = true;
         this.state.points.array.push({
-        x: e.clientX - this.rect.left,
-        y: e.clientY - this.rect.top
+            x: e.clientX - this.rect.left,
+            y: e.clientY - this.rect.top
         });
         this.state.points['size'] = this.state.points['array'].length
         this.state.isDrawing = true
-        
+
         this.startX = e.clientX - this.rect.x
         this.startY = e.clientY - this.rect.y;
     }
     onMouseUp(e) {
         this.state.isDrawing = false;
-        if (this.state.isMoving){
+        if (this.state.isMoving) {
             this.state.isMoving = false;
         }
-        else{
+        else {
             this.state.points['array'].pop()
         }
         this.state.points.array.pop();
@@ -82,7 +82,7 @@ export default class CanvasComponent extends Component {
         this.placeTool();
     }
     placeTool = (e) => {
-        this.props.stage.add(new Mirror(new Line(new Vector(this.startX, this.startY), new Vector(this.endX, this.endY), '#0088FF', 10)));
+        this.props.stage.add(new Mirror(new Line(new Vector(this.startX, this.startY), new Vector(this.endX, this.endY), '#0088FF', 3)));
         this.setState({ key: Math.random() });
     }
     updateCanvas = () => {
