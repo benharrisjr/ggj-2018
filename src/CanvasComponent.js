@@ -68,7 +68,6 @@ export default class CanvasComponent extends Component {
     drawPath = (points) => {
         const context = this.refs.canvas.getContext('2d');
         this.clearCanvas()
-        this.updateCanvas()
         points.array.forEach((value, index) => {
             if (index % 2 === 0) {
                 context.beginPath()
@@ -187,14 +186,11 @@ export default class CanvasComponent extends Component {
         this.props.stage.lines.forEach((currentLine) => this.drawLine(currentLine));
         this.props.stage.collectors.forEach((collector) => this.drawCollector(collector));
         if (this.props.stage.level.completed) {
-            this.props.stage.completed = false;
-            const context = this.refs.canvas.getContext('2d');
-            context.fillStyle = "black";
-            context.fillRect(0, 0, this.refs.canvas.width, this.refs.canvas.height);
+            this.props.stage.level.completed = false;
             this.completionImages.push(this.refs.canvas.toDataURL('image/png'));
-            this.props.levelComplete();
-            this.clearCanvas();
-            this.setState({ key: Math.random() });
+            // this.props.levelComplete();
+            // this.clearCanvas();
+            // this.setState({ key: Math.random() });
         }
     }
     removeTools = () => {
