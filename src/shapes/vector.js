@@ -4,6 +4,13 @@ export default class Vector {
         this.y = y;
     }
 
+    compareDistance(vec) {
+        let dx = this.x - vec.x;
+        let dy = this.y - vec.y;
+
+        return dx * dx + dy * dy;
+    }
+
     difference(vec) {
         return new Vector(this.x - vec.x, this.y - vec.y);
     }
