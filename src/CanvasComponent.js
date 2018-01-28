@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Toolbar from './tools/toolbar';
+import LevelSelect from './tools/levelSelect';
+import levels from './levels/levels';
 import Vector from './shapes/vector';
 import Line from './shapes/line';
 import Mirror from './shapes/mirror'
@@ -100,7 +102,7 @@ export default class CanvasComponent extends Component {
     }
 
     onMouseMove(e) {
-        if (this.state.isDrawing) {
+        if (this.state.isDrawing && (this.props.stage.tools.length + 1 <= this.state.maxMirrors)) {
             this.isMoving = true;
             this.state.points.array[this.state.points.size] = {
                 x: e.clientX - this.rect.left,
@@ -111,16 +113,20 @@ export default class CanvasComponent extends Component {
         };
     }
     onMouseDown(e) {
-        this.state.isDrawing = true;
-        this.state.points.array.push({
-            x: e.clientX - this.rect.left,
-            y: e.clientY - this.rect.top
-        });
-        this.state.points['size'] = this.state.points['array'].length
-        this.state.isDrawing = true
+        if(e.key == 'Shift'){
+            console.log('shift press here! ')
+        }else{
+            this.state.isDrawing = true;
+            this.state.points.array.push({
+                x: e.clientX - this.rect.left,
+                y: e.clientY - this.rect.top
+            });
+            this.state.points['size'] = this.state.points['array'].length
+            this.state.isDrawing = true
 
-        this.startX = e.clientX - this.rect.x
-        this.startY = e.clientY - this.rect.y;
+            this.startX = e.clientX - this.rect.x
+            this.startY = e.clientY - this.rect.y;
+        }
     }
     onMouseUp(e) {
         this.state.isDrawing = false;
@@ -136,7 +142,7 @@ export default class CanvasComponent extends Component {
         this.placeTool();
     }
     onTouchMove(e) {
-        if (this.state.isDrawing) {
+        if (this.state.isDrawing && (this.props.stage.tools.length + 1 <= this.state.maxMirrors)) {
             this.isMoving = true;
             this.state.points.array[this.state.points.size] = {
                 x: e.touches[0].clientX - this.rect.left,
@@ -186,7 +192,6 @@ export default class CanvasComponent extends Component {
         this.props.stage.tools.forEach((currentTool) => this.drawTool(currentTool));
         this.props.stage.lines.forEach((currentLine) => this.drawLine(currentLine));
         this.props.stage.collectors.forEach((collector) => this.drawCollector(collector));
-        // this.drawPrism(this.stage);
     }
     removeTools = () => {
         this.props.stage.removeAll();
@@ -204,6 +209,7 @@ export default class CanvasComponent extends Component {
     render() {
         return (
             <div>
+                <LevelSelect levels={levels} />
                 <canvas
                     key={this.state.key}
                     onClick={this.placeTool}

@@ -21,10 +21,6 @@ export default class Prism {
 
         let start = this.intersectPoint(ray);
 
-        let reverse = ray.start.difference(start).normalized;
-        start.x += reverse.x;
-        start.y += reverse.y;
-
         let r1 = new Vector(start.x + dx, start.y + dy);
 
         let result = [
