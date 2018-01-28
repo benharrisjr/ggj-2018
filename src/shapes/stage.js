@@ -20,7 +20,8 @@ export default class Stage {
 
     initialize(level) {
         this.lines = [];
-        this.tools = level.tools || [];
+        this.tools = [];
+        this.fixedTools = level.tools || [];
         this.emitters = level.emitters || [];
         this.collectors = level.collectors || [];
         this.blockers = level.blockers || [];
@@ -54,7 +55,7 @@ export default class Stage {
         let currentPoint = null;
         let currentObj = null;
 
-        let objs = this.tools.concat(this.collectors, this.blockers);
+        let objs = this.tools.concat(this.collectors, this.blockers, this.fixedTools);
 
         objs.forEach((obj) => {
             if (obj.intersectsWith(ray) !== false) {
