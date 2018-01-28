@@ -14,7 +14,7 @@ export default class CanvasComponent extends Component {
         isMoving: false,
     }
     componentDidMount() {
-        this.context = this.refs.canvas.getContext('2d'),
+        this.context = this.refs.canvas.getContext('2d');
         this.rect = this.refs.canvas.getBoundingClientRect();
         this.updateCanvas();
     }
@@ -34,7 +34,16 @@ export default class CanvasComponent extends Component {
         // context.strokeStyle = line.color;
         // context.stroke();
     }
-    
+
+    drawCollector = (collector) => {
+        const context = this.refs.canvas.getContext('2d');
+        context.beginPath();
+        context.strokeStyle = '#00FF00';
+        context.arc(collector.circle.center.x, collector.circle.center.y, collector.circle.radius,
+            0, 2 * Math.PI);
+        context.stroke();
+    }
+
     drawLine = (line) => {
         const context = this.refs.canvas.getContext('2d');
         context.beginPath();
@@ -47,8 +56,9 @@ export default class CanvasComponent extends Component {
     drawPath = (points) => {
         const context = this.refs.canvas.getContext('2d');
         context.clearRect(0, 0, this.refs.canvas.width, this.refs.canvas.height)
+        this.updateCanvas()
         points.array.forEach((value, index) => {
-            if (index % 2 == 0) {
+            if (index % 2 === 0) {
                 context.beginPath()
                 context.lineCap = 'round'
                 context.moveTo(value.x, value.y)
@@ -105,6 +115,7 @@ export default class CanvasComponent extends Component {
     updateCanvas = () => {
         this.props.stage.lines.forEach((currentLine) => this.drawLine(currentLine));
         this.props.stage.tools.forEach((currentTool) => this.drawLine(currentTool.line));
+        this.props.stage.collectors.forEach((collector) => this.drawCollector(collector));
         this.drawPrism();
     }
     componentDidUpdate = () => {
