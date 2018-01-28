@@ -48,12 +48,16 @@ export default class CanvasComponent extends Component {
     }
 
     drawRectangle = (rect) => {
+        console.log("rect");
+        console.log(rect);
         const context = this.refs.canvas.getContext('2d');
         context.fillStyle = '#FF0000';
         context.fillRect(rect.x, rect.y, rect.width, rect.height);
     }
 
     drawLine = (line) => {
+        console.log("line");
+        console.log(line);
         const context = this.refs.canvas.getContext('2d');
         context.beginPath();
         context.moveTo(line.start.x, line.start.y);
