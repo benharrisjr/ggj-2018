@@ -98,7 +98,7 @@ export default class Stage {
 
         while (rays.length) {
             ray = this.processRay(rays.pop());
-            if (ray) {
+            if (ray && ray.intensity > .00001) {
                 rays.push(ray);
             }
         }
