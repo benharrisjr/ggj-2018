@@ -1,6 +1,5 @@
 import Vector from './vector';
 import Line from './line';
-import Mirror from './mirror';
 import Collector from './collector';
 import Circle from './circle';
 
@@ -47,8 +46,8 @@ export default class Stage {
         let objs = this.tools.concat(this.collectors);
 
         objs.forEach((obj) => {
-            if (obj.intersect(ray) !== false) {
-                intersectionPoint = obj.intersectPoint(ray);
+            if (obj.intersectsWith(ray) !== false) {
+                intersectionPoint = obj.intersectionPoint(ray);
                 distance = intersectionPoint.distance(ray.start);
                 if (distance < minDistance) {
                     minDistance = distance;

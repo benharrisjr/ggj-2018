@@ -8,15 +8,11 @@ export default class Collector {
         console.log(`Success: ${point}`);
     }
 
-    intersect(ray) {
-        return this.intersectsWith(ray);
-    }
-
     intersectsWith(ray) {
         return this.circle.intersectsWith(ray);
     }
 
-    intersectPoint(ray) {
+    intersectionPoint(ray) {
         return this.intersectsWith(ray);
     }
 }

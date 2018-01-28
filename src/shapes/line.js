@@ -9,7 +9,7 @@ export default class Line {
         this.intensity = intensity || 1;
     }
 
-    intersects(line) {
+    intersectsWith(line) {
         let a = this.start;
         let b = this.end;
         let c = line.start;
@@ -38,7 +38,7 @@ export default class Line {
         return (t >= 0) && (t <= 1 + Number.EPSILON) && (u >= 0) && (u <= 1 + Number.EPSILON);
     }
 
-    intersectPoint(line) {
+    intersectionPoint(line) {
         let a = this.start;
         let b = this.end;
         let c = line.start;

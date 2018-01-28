@@ -16,7 +16,7 @@ export default class Mirror {
         let dx = refRay.x - dot * this.normal.x
         let dy = refRay.y - dot * this.normal.y
 
-        let start = this.intersectPoint(ray);
+        let start = this.intersectionPoint(ray);
 
         let reverse = ray.start.difference(start).normalized;
         start.x += reverse.x;
@@ -29,11 +29,11 @@ export default class Mirror {
         return result;
     }
 
-    intersect(ray) {
-        return this.line.intersects(ray);
+    intersectsWith(ray) {
+        return this.line.intersectsWith(ray);
     }
 
-    intersectPoint(ray) {
-        return this.line.intersectPoint(ray);
+    intersectionPoint(ray) {
+        return this.line.intersectionPoint(ray);
     }
 }

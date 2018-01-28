@@ -17,25 +17,13 @@ export default class Circle {
     }
 
     intersectsWithLine(line) {
-        // let dx = ray.end.x - ray.start.x;
-        // let dy = ray.end.y - ray.start.y;
-        // let dr = dx * dx + dy * dy;
-
-        // let D = ray.start.x * ray.end.y - ray.end.x * ray.start.y;
-        // D = D * D;
-
-        // let test = this.radius * this.radius * dr * dr - D;
-        // return test >= 0;
-
-        // Used to find direction vector, our .vector property handles this
-        // let lineDistance = line.end.distance(line.start);
-        let directionVector = line.vector;
+        let directionVector = line.vector.normalized;
 
         // distanceClosestPointToCenter
         let t = directionVector.x * (this.center.x - line.start.x) + directionVector.y * (this.center.y - line.start.y);
-        let e = new Vector(t * directionVector.x + line.start.x, t * directionVector.y + line.start.y);
+        let pointClosestCenter = new Vector(t * directionVector.x + line.start.x, t * directionVector.y + line.start.y);
 
-        let distanceToCenter = e.distance(this.center);
+        let distanceToCenter = pointClosestCenter.distance(this.center);
 
         //Is it inside the circle?
         if (distanceToCenter < this.radius) {
@@ -46,7 +34,7 @@ export default class Circle {
 
             return p1.distance(line.start) < p2.distance(line.start) ? p1 : p2;
         } else if (distanceToCenter === this.radius) {
-            // Tangent
+            return pointClosestCenter;
         } else {
             return false;
         }
