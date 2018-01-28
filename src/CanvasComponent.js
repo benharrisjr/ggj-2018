@@ -50,6 +50,9 @@ export default class CanvasComponent extends Component {
     drawRectangle = (rect) => {
         const context = this.refs.canvas.getContext('2d');
         context.fillStyle = '#FF0000';
+        console.log(rect);
+        // context.translate( x+width/2, y+height/2 );
+        // context.rotate(rect.rotation * Math.PI/180);
         context.fillRect(rect.x, rect.y, rect.width, rect.height);
     }
 
@@ -86,6 +89,7 @@ export default class CanvasComponent extends Component {
         switch (tool.constructor.name) {
             case 'Blocker':
                 this.drawRectangle(tool.rectangle);
+                console.log(tool);
                 break;
             case 'Mirror':
                 this.drawLine(tool.line);

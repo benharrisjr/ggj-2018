@@ -6,6 +6,7 @@ export default class Rectangle {
         this.center = center;
         this.width = width;
         this.height = height;
+        this.rotation = rotation;
 
         let offsetX = width / 2;
         let offsetY = height / 2;
