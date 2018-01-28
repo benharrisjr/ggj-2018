@@ -19,6 +19,7 @@ const Slit = {
         new Collector(new Circle(new Vector(600, 500), 20))
     ],
     completed:false,
+    playing:false,
 }
 
 export default Slit;

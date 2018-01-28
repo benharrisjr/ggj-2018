@@ -6,6 +6,12 @@ const Levels = {
     'Mirror Maze': MirrorMaze,
     'Precision': Precision,
     'Slit': Slit
-}
+};
+
+export const LevelMap = [
+    'Mirror Maze',
+    'Precision',
+    'Slit',
+];
 
 export default Levels;
