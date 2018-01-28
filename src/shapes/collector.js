@@ -1,10 +1,10 @@
 export default class Collector {
-    constructor(point) {
-        this.point = point;
+    constructor(circle) {
+        this.circle = circle;
     }
 
     intersect(ray) {
-
+        return this.circle.intersectsWith(ray);
     }
 
     intersetPoint(ray) {
