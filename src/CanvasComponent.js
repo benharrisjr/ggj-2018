@@ -16,7 +16,9 @@ export default class CanvasComponent extends Component {
         isDrawing: false,
         isMoving: false,
         maxMirrors: 5,
+        // completionImages: [],
     }
+    completionImages = [];
     Levels = Levels;
     componentDidMount() {
         this.context = this.refs.canvas.getContext('2d');
@@ -58,6 +60,7 @@ export default class CanvasComponent extends Component {
         context.lineTo(line.end.x, line.end.y);
         context.lineWidth = line.width;
         context.strokeStyle = line.color;
+        context.lineCap = "round";
         context.stroke();
     }
     drawPath = (points) => {
@@ -184,6 +187,18 @@ export default class CanvasComponent extends Component {
         this.props.stage.tools.forEach((currentTool) => this.drawTool(currentTool));
         this.props.stage.lines.forEach((currentLine) => this.drawLine(currentLine));
         this.props.stage.collectors.forEach((collector) => this.drawCollector(collector));
+        console.log(this.props.stage);
+        if (this.props.stage.level.completed) {
+            this.props.stage.completed = false;
+            const context = this.refs.canvas.getContext('2d');
+            context.fillStyle = "black";
+            context.fillRect(0, 0, this.refs.canvas.width, this.refs.canvas.height);
+            this.completionImages.push(this.refs.canvas.toDataURL('image/png'));
+            console.log(this.completionImages);
+            this.props.levelComplete();
+            this.clearCanvas();
+            this.setState({ key: Math.random() });
+        }
     }
     removeTools = () => {
         this.props.stage.removeAll();
@@ -220,7 +235,7 @@ export default class CanvasComponent extends Component {
                     height={this.props.stage.height}
                     style={{ backgroundColor: "#000" }}
                 />
-                <Toolbar undoTool={this.undoTool} changeSelectedTool={this.changeSelectedToolIndex} removeTools={this.removeTools} />
+                <Toolbar undoTool={this.undoTool} changeSelectedTool={this.changeSelectedToolIndex} removeTools={this.removeTools} completionImages={this.completionImages} />
             </div>
         );
     }

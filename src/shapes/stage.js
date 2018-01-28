@@ -6,15 +6,12 @@ import Mirror from './mirror';
 import Prism from './prism';
 import Blocker from './blocker';
 import Rectangle from './rectangle';
-import Levels, { LevelMap } from './../levels/levels';
 
 export default class Stage {
     constructor(width, height, level) {
-        console.log(LevelMap);
         this.width = width;
         this.height = height;
         this.level = level;
-        this.levelMapIndex = 0;
         //Determine the maximum length for our rays
         this.maxLength = Math.sqrt(width * width + height * height);
 
@@ -34,12 +31,6 @@ export default class Stage {
 
         this.simulate();
     }
-    levelComplete = () => {
-        this.levelMapIndex = ((this.levelMapIndex + 1) <= LevelMap.length) ? this.levelMapIndex + 1 : LevelMap.length;
-        console.log(this.levelMapIndex);
-        setTimeout(() => this.initialize(Levels[LevelMap[this.levelMapIndex]]),5000);
-        
-      }
 
     add(tool) {
         this.tools.push(tool);
@@ -95,7 +86,6 @@ export default class Stage {
             if (collision.obj.constructor.name === 'Collector') {
                 collision.obj.success = true;
                 this.level.completed = true;
-                this.levelComplete();
             }
             return collision.obj.cast(ray);
         }

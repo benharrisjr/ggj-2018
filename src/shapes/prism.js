@@ -29,7 +29,8 @@ export default class Prism {
         let refractedVector = ray.vector.normalized.multiply(refractiveIndex)
         let coeff = refractiveIndex * cos;
         coeff -= Math.sqrt(1 - refractiveIndex * refractiveIndex * (1 - cos * cos));
-        refractedVector = refractedVector.add(coeff * normal.negative);
+        // refractedVector = refractedVector.add(coeff * normal.negative);
+        console.log(refractedVector);
         return new Line(point.add(new Vector(50, 50)), refractedVector);
     }
 

@@ -8,7 +8,7 @@ export default class LevelSelect extends Component {
             <section style={{paddingBottom: "20px"}}>
                 {levelArray.map((level, index) => (
                     <button
-                        disabled={!this.props.levels[level].completed && !this.props.levels[level].playing}
+                        // disabled={!this.props.levels[level].completed && !this.props.levels[level].playing}
                         style={{marginRight: "10px", width: "100px"}}
                         onClick={() => this.props.loadLevel(level)}
                         key={levelArray[index]}
