@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Toolbar from './tools/toolbar';
 import Vector from './shapes/vector';
 import Line from './shapes/line';
 import Mirror from './shapes/mirror'
@@ -12,6 +13,7 @@ export default class CanvasComponent extends Component {
         mirrors: [],
         isDrawing: false,
         isMoving: false,
+        maxMirrors: 5,
     }
     componentDidMount() {
         this.context = this.refs.canvas.getContext('2d');
@@ -19,21 +21,21 @@ export default class CanvasComponent extends Component {
         this.updateCanvas();
     }
 
-    drawPrism = (prism) => {
-        const context = this.refs.canvas.getContext('2d');
-        context.beginPath();
-        context.moveTo(prism.line0.x, prism.line0.y);
-        context.lineTo(prism.line1.x, prism.line1.y);
-        context.lineTo(prism.line2.x, prism.line2.y);
-        context.fillStyle = '#ff0000';
-        context.fill();
-        // context.beginPath();
-        // context.moveTo(line.start.x, line.start.y);
-        // context.lineTo(line.end.x, line.end.y);
-        // context.lineWidth = line.width;
-        // context.strokeStyle = line.color;
-        // context.stroke();
-    }
+    // drawPrism = (prism) => {
+    //     const context = this.refs.canvas.getContext('2d');
+    //     context.beginPath();
+    //     context.moveTo(prism.line0.x, prism.line0.y);
+    //     context.lineTo(prism.line1.x, prism.line1.y);
+    //     context.lineTo(prism.line2.x, prism.line2.y);
+    //     context.fillStyle = '#ff0000';
+    //     context.fill();
+    //     // context.beginPath();
+    //     // context.moveTo(line.start.x, line.start.y);
+    //     // context.lineTo(line.end.x, line.end.y);
+    //     // context.lineWidth = line.width;
+    //     // context.strokeStyle = line.color;
+    //     // context.stroke();
+    // }
 
     drawCollector = (collector) => {
         const context = this.refs.canvas.getContext('2d');
@@ -109,14 +111,29 @@ export default class CanvasComponent extends Component {
         this.placeTool();
     }
     placeTool = (e) => {
-        this.props.stage.add(new Mirror(new Line(new Vector(this.startX, this.startY), new Vector(this.endX, this.endY), '#0088FF', 3)));
-        this.setState({ key: Math.random() });
+        if (this.props.stage.tools.length + 1 <= this.state.maxMirrors){
+            this.props.stage.add(new Mirror(new Line(new Vector(this.startX, this.startY), new Vector(this.endX, this.endY), '#0088FF', 3)));
+            console.log(this.props.stage.tools.length);
+            this.setState({ key: Math.random() });
+        }else {
+            console.log("Max number of mirrors reached!");
+        }
     }
     updateCanvas = () => {
         this.props.stage.lines.forEach((currentLine) => this.drawLine(currentLine));
         this.props.stage.tools.forEach((currentTool) => this.drawLine(currentTool.line));
         this.props.stage.collectors.forEach((collector) => this.drawCollector(collector));
-        this.drawPrism(this.stage);
+        // this.drawPrism(this.stage);
+    }
+    removeTools = () => {
+        this.state.stage.removeAll();
+        this.setState({ key: Math.random() });
+    }
+    undoTool = () => {
+        this.props.stage.undo();
+        const context = this.refs.canvas.getContext('2d');
+        context.clearRect(0, 0, this.refs.canvas.width, this.refs.canvas.height)
+        this.updateCanvas();
     }
     componentDidUpdate = () => {
         this.updateCanvas();
@@ -135,6 +152,7 @@ export default class CanvasComponent extends Component {
                     height={this.props.stage.height}
                     style={{ backgroundColor: "#000" }}
                 />
+                <Toolbar undoTool={this.undoTool} changeSelectedTool={this.changeSelectedToolIndex} removeTools={this.removeTools} />
             </div>
         );
     }

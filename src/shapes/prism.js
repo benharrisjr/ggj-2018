@@ -2,7 +2,7 @@ import Vector from './vector';
 import Line from './line';
 
 export default class Prism {
-    constructor(line0, line1, line3) {
+    constructor(line0, line1, line2) {
         this.line0 = line0;
         this.line1 = line1;
         this.line2 = line2;

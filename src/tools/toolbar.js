@@ -10,6 +10,7 @@ export default class Toolbar extends Component {
         return (
             <section>
                 <button onClick={this.props.removeTools}>Remove All</button>
+                <button onClick={this.props.undoTool}>Undo</button>
                 {tools.map((tool, index) => <button key={tool.name}>{tool.name}</button>)}
             </section>
         );
