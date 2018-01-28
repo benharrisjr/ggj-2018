@@ -187,10 +187,10 @@ export default class CanvasComponent extends Component {
         }
     }
     updateCanvas = () => {
-        this.props.stage.lines.forEach((currentLine) => this.drawLine(currentLine));
         this.props.stage.blockers.forEach((blocker) => this.drawTool(blocker));
         this.props.stage.fixedTools.forEach((tool) => this.drawTool(tool));
         this.props.stage.tools.forEach((currentTool) => this.drawTool(currentTool));
+        this.props.stage.lines.forEach((currentLine) => this.drawLine(currentLine));
         this.props.stage.collectors.forEach((collector) => this.drawCollector(collector));
     }
     removeTools = () => {

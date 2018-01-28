@@ -4,7 +4,7 @@ import Line from "./line";
 export default class Mirror {
     constructor(line) {
         this.line = line;
-        this.loss = .1;
+        this.loss = .001;
 
         this.normal = this.line.vector.normal;
     }
