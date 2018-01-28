@@ -8,7 +8,7 @@ const Levels = {
     'Mirror Maze': MirrorMaze,
     'Precision': Precision,
     'Slit': Slit,
-    'Prism': PrismLevel,
+    // 'Prism': PrismLevel,
     'Big Blockers': BigBlockers,
 }
 
@@ -16,7 +16,7 @@ export const LevelMap = [
     'Mirror Maze',
     'Precision',
     'Slit',
-    'Prism',
+    // 'Prism',
     'Big Blockers',
 ];
 
