@@ -2,6 +2,8 @@ import Vector from './vector';
 import Line from './line';
 import Collector from './collector';
 import Circle from './circle';
+import Mirror from './mirror';
+import Prism from './prism';
 
 export default class Stage {
     constructor(width, height) {

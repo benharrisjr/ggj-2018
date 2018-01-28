@@ -19,12 +19,12 @@ export default class CanvasComponent extends Component {
         this.updateCanvas();
     }
 
-    drawPrism = () => {
+    drawPrism = (prism) => {
         const context = this.refs.canvas.getContext('2d');
         context.beginPath();
-        context.moveTo(75, 50);
-        context.lineTo(100, 75);
-        context.lineTo(100, 25);
+        context.moveTo(prism.line0.x, prism.line0.y);
+        context.lineTo(prism.line1.x, prism.line1.y);
+        context.lineTo(prism.line2.x, prism.line2.y);
         context.fillStyle = '#ff0000';
         context.fill();
         // context.beginPath();
@@ -116,7 +116,7 @@ export default class CanvasComponent extends Component {
         this.props.stage.lines.forEach((currentLine) => this.drawLine(currentLine));
         this.props.stage.tools.forEach((currentTool) => this.drawLine(currentTool.line));
         this.props.stage.collectors.forEach((collector) => this.drawCollector(collector));
-        this.drawPrism();
+        this.drawPrism(this.stage);
     }
     componentDidUpdate = () => {
         this.updateCanvas();
