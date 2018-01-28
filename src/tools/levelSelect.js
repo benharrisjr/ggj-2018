@@ -5,8 +5,16 @@ export default class LevelSelect extends Component {
         const levelArray = Object.keys(this.props.levels);
         console.log(levelArray);
         return (
-            <section>
-                {levelArray.map((level, index) => <button onClick={() => this.props.loadLevel(level)} key={levelArray[index]}>{levelArray[index]}</button>)}
+            <section style={{paddingBottom: "20px"}}>
+                {levelArray.map((level, index) => (
+                    <button
+                        style={{marginRight: "10px", width: "100px"}}
+                        onClick={() => this.props.loadLevel(level)}
+                        key={levelArray[index]}
+                    >
+                        {levelArray[index]}
+                    </button>
+                ))}
             </section>
         );
     }

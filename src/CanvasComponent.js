@@ -22,7 +22,10 @@ export default class CanvasComponent extends Component {
         this.rect = this.refs.canvas.getBoundingClientRect();
         this.updateCanvas();
     }
-
+    clearCanvas = () => {
+        const context = this.refs.canvas.getContext('2d');
+        context.clearRect(0, 0, this.refs.canvas.width, this.refs.canvas.height);
+    }
     drawPrism = (prism) => {
         const context = this.refs.canvas.getContext('2d');
         context.beginPath();
@@ -70,7 +73,7 @@ export default class CanvasComponent extends Component {
     }
     drawPath = (points) => {
         const context = this.refs.canvas.getContext('2d');
-        context.clearRect(0, 0, this.refs.canvas.width, this.refs.canvas.height)
+        this.clearCanvas()
         this.updateCanvas()
         points.array.forEach((value, index) => {
             if (index % 2 === 0) {
@@ -199,15 +202,15 @@ export default class CanvasComponent extends Component {
     }
     undoTool = () => {
         this.props.stage.undo();
-        const context = this.refs.canvas.getContext('2d');
-        context.clearRect(0, 0, this.refs.canvas.width, this.refs.canvas.height)
+        this.clearCanvas()
         this.updateCanvas();
     }
     loadLevel = (level) => {
         console.log("hey");
         console.log(level);
-        debugger
-        this.props.stage.intialize(level);
+        this.props.stage.initialize(Levels[level]);
+        this.clearCanvas()
+        this.updateCanvas();
     }
     componentDidUpdate = () => {
         this.updateCanvas();
