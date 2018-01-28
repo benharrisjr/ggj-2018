@@ -8,7 +8,7 @@ export default class Rectangle {
         this.height = height;
 
         let offsetX = width / 2;
-        let offsetY = width / 2;
+        let offsetY = height / 2;
 
         this.x = center.x - offsetX;
         this.y = center.y - offsetY;

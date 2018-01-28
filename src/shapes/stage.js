@@ -8,19 +8,22 @@ import Blocker from './blocker';
 import Rectangle from './rectangle';
 
 export default class Stage {
-    constructor(width, height) {
+    constructor(width, height, level) {
         this.width = width;
         this.height = height;
-        this.emitters = [new Line(new Vector(0, 0), new Vector(1, 1), '#FFFFFF', 2)];
-        this.collectors = [new Collector(new Circle(new Vector(600, 400), 10))];
-        this.blockers = [
-            new Blocker(new Rectangle(new Vector(200, 200), 60, 40, 0))
-        ];
-        this.tools = [];
-        this.lines = [];
 
         //Determine the maximum length for our rays
         this.maxLength = Math.sqrt(width * width + height * height);
+
+        this.initialize(level);
+    }
+
+    initialize(level) {
+        this.lines = [];
+        this.tools = level.tools || [];
+        this.emitters = level.emitters || [];
+        this.collectors = level.collectors || [];
+        this.blockers = level.blockers || [];
 
         this.simulate();
     }
