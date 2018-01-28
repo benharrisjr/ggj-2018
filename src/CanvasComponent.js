@@ -21,6 +21,22 @@ export default class CanvasComponent extends Component {
         this.updateCanvas();
     }
 
+    drawPrism = (prism) => {
+        const context = this.refs.canvas.getContext('2d');
+        context.beginPath();
+        context.moveTo(prism.line0.x, prism.line0.y);
+        context.lineTo(prism.line1.x, prism.line1.y);
+        context.lineTo(prism.line2.x, prism.line2.y);
+        context.fillStyle = '#ff0000';
+        context.fill();
+        // context.beginPath();
+        // context.moveTo(line.start.x, line.start.y);
+        // context.lineTo(line.end.x, line.end.y);
+        // context.lineWidth = line.width;
+        // context.strokeStyle = line.color;
+        // context.stroke();
+    }
+
     drawCollector = (collector) => {
         const context = this.refs.canvas.getContext('2d');
         context.beginPath();
@@ -28,6 +44,12 @@ export default class CanvasComponent extends Component {
         context.arc(collector.circle.center.x, collector.circle.center.y, collector.circle.radius,
             0, 2 * Math.PI);
         context.stroke();
+    }
+
+    drawRectangle = (rect) => {
+        const context = this.refs.canvas.getContext('2d');
+        context.fillStyle = '#FF0000';
+        context.fillRect(rect.x, rect.y, rect.width, rect.height);
     }
 
     drawLine = (line) => {
@@ -56,8 +78,22 @@ export default class CanvasComponent extends Component {
                 context.stroke()
             }
         });
-
     }
+
+    drawTool(tool) {
+        switch (tool.constructor.name) {
+            case 'Blocker':
+                this.drawRectangle(tool.rectangle);
+                break;
+            case 'Mirror':
+                this.drawLine(tool.line);
+                break;
+            case 'Prism':
+                this.drawPrism(tool);
+                break;
+        }
+    }
+
     onMouseMove(e) {
         if (this.state.isDrawing && (this.props.stage.tools.length + 1 <= this.state.maxMirrors)) {
             this.isMoving = true;
@@ -135,16 +171,17 @@ export default class CanvasComponent extends Component {
         this.placeTool();
     }
     placeTool = (e) => {
-        if (this.props.stage.tools.length + 1 <= this.state.maxMirrors){
+        if (this.props.stage.tools.length + 1 <= this.state.maxMirrors) {
             this.props.stage.add(new Mirror(new Line(new Vector(this.startX, this.startY), new Vector(this.endX, this.endY), '#0088FF', 3)));
             console.log(this.props.stage.tools.length);
             this.setState({ key: Math.random() });
-        }else {
+        } else {
             console.log("Max number of mirrors reached!");
         }
     }
     updateCanvas = () => {
         this.props.stage.lines.forEach((currentLine) => this.drawLine(currentLine));
+        this.props.stage.blockers.forEach((blocker) => this.drawTool(blocker));
         this.props.stage.tools.forEach((currentTool) => this.drawTool(currentTool));
         this.props.stage.collectors.forEach((collector) => this.drawCollector(collector));
     }

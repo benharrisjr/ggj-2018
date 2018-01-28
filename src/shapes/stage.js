@@ -4,6 +4,8 @@ import Collector from './collector';
 import Circle from './circle';
 import Mirror from './mirror';
 import Prism from './prism';
+import Blocker from './blocker';
+import Rectangle from './rectangle';
 
 export default class Stage {
     constructor(width, height) {
@@ -11,6 +13,9 @@ export default class Stage {
         this.height = height;
         this.emitters = [new Line(new Vector(0, 0), new Vector(1, 1), '#FFFFFF', 2)];
         this.collectors = [new Collector(new Circle(new Vector(600, 400), 10))];
+        this.blockers = [
+            new Blocker(new Rectangle(new Vector(200, 200), 60, 40, 0))
+        ];
         this.tools = [];
         this.lines = [];
 
@@ -46,7 +51,7 @@ export default class Stage {
         let currentPoint = null;
         let currentObj = null;
 
-        let objs = this.tools.concat(this.collectors);
+        let objs = this.tools.concat(this.collectors, this.blockers);
 
         objs.forEach((obj) => {
             if (obj.intersectsWith(ray) !== false) {
