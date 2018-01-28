@@ -15,9 +15,26 @@ export default class CanvasComponent extends Component {
     }
     componentDidMount() {
         this.context = this.refs.canvas.getContext('2d'),
-            this.rect = this.refs.canvas.getBoundingClientRect();
+        this.rect = this.refs.canvas.getBoundingClientRect();
         this.updateCanvas();
     }
+
+    drawPrism = () => {
+        const context = this.refs.canvas.getContext('2d');
+        context.beginPath();
+        context.moveTo(75, 50);
+        context.lineTo(100, 75);
+        context.lineTo(100, 25);
+        context.fillStyle = '#ff0000';
+        context.fill();
+        // context.beginPath();
+        // context.moveTo(line.start.x, line.start.y);
+        // context.lineTo(line.end.x, line.end.y);
+        // context.lineWidth = line.width;
+        // context.strokeStyle = line.color;
+        // context.stroke();
+    }
+    
     drawLine = (line) => {
         const context = this.refs.canvas.getContext('2d');
         context.beginPath();
@@ -88,6 +105,7 @@ export default class CanvasComponent extends Component {
     updateCanvas = () => {
         this.props.stage.lines.forEach((currentLine) => this.drawLine(currentLine));
         this.props.stage.tools.forEach((currentTool) => this.drawLine(currentTool.line));
+        this.drawPrism();
     }
     componentDidUpdate = () => {
         this.updateCanvas();
