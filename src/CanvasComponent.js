@@ -50,7 +50,6 @@ export default class CanvasComponent extends Component {
     drawRectangle = (rect) => {
         const context = this.refs.canvas.getContext('2d');
         context.fillStyle = '#FF0000';
-        console.log(rect);
         // context.translate( x+width/2, y+height/2 );
         // context.rotate(rect.rotation * Math.PI/180);
         context.fillRect(rect.x, rect.y, rect.width, rect.height);
@@ -89,7 +88,6 @@ export default class CanvasComponent extends Component {
         switch (tool.constructor.name) {
             case 'Blocker':
                 this.drawRectangle(tool.rectangle);
-                console.log(tool);
                 break;
             case 'Mirror':
                 this.drawLine(tool.line);
@@ -113,7 +111,6 @@ export default class CanvasComponent extends Component {
     }
     onMouseDown(e) {
         if (e.key == 'Shift') {
-            console.log('shift press here! ')
         } else {
             this.state.isDrawing = true;
             this.state.points.array.push({
@@ -179,10 +176,8 @@ export default class CanvasComponent extends Component {
     placeTool = (e) => {
         if (this.props.stage.tools.length + 1 <= this.state.maxMirrors) {
             this.props.stage.add(new Mirror(new Line(new Vector(this.startX, this.startY), new Vector(this.endX, this.endY), '#0088FF', 3)));
-            console.log(this.props.stage.tools.length);
             this.setState({ key: Math.random() });
         } else {
-            console.log("Max number of mirrors reached!");
         }
     }
     updateCanvas = () => {
@@ -191,14 +186,12 @@ export default class CanvasComponent extends Component {
         this.props.stage.tools.forEach((currentTool) => this.drawTool(currentTool));
         this.props.stage.lines.forEach((currentLine) => this.drawLine(currentLine));
         this.props.stage.collectors.forEach((collector) => this.drawCollector(collector));
-        console.log(this.props.stage);
         if (this.props.stage.level.completed) {
             this.props.stage.completed = false;
             const context = this.refs.canvas.getContext('2d');
             context.fillStyle = "black";
             context.fillRect(0, 0, this.refs.canvas.width, this.refs.canvas.height);
             this.completionImages.push(this.refs.canvas.toDataURL('image/png'));
-            console.log(this.completionImages);
             this.props.levelComplete();
             this.clearCanvas();
             this.setState({ key: Math.random() });
