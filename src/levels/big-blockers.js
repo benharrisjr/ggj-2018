@@ -11,7 +11,10 @@ const BigBlockers = {
         new Line(new Vector(1, 300), new Vector(2, 300), '#FFFFFF', 2, 1)
     ],
     blockers: [
-        new Blocker(new Rectangle(new Vector(0, 0), 30, 30, 45))
+        new Blocker(new Rectangle(new Vector(200, 300), 30, 300, 45)),
+        new Blocker(new Rectangle(new Vector(400, 150), 30, 300, 45)),
+        new Blocker(new Rectangle(new Vector(400, 500), 30, 300, 45)),
+        new Blocker(new Rectangle(new Vector(600, 300), 30, 300, 45)),
     ],
     collectors: [
         new Collector(new Circle(new Vector(770, 300), 20))
