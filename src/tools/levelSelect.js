@@ -6,7 +6,7 @@ export default class LevelSelect extends Component {
         console.log(levelArray);
         return (
             <section>
-                {levelArray.map((index) => <button key={levelArray[index]}>{levelArray[index]}</button>)}
+                {levelArray.map((level, index) => <button onClick={() => this.props.loadLevel(level)} key={levelArray[index]}>{levelArray[index]}</button>)}
             </section>
         );
     }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Toolbar from './tools/toolbar';
 import LevelSelect from './tools/levelSelect';
-import levels from './levels/levels';
+import Levels from './levels/levels';
 import Vector from './shapes/vector';
 import Line from './shapes/line';
 import Mirror from './shapes/mirror'
@@ -203,13 +203,19 @@ export default class CanvasComponent extends Component {
         context.clearRect(0, 0, this.refs.canvas.width, this.refs.canvas.height)
         this.updateCanvas();
     }
+    loadLevel = (level) => {
+        console.log("hey");
+        console.log(level);
+        debugger
+        this.props.stage.intialize(level);
+    }
     componentDidUpdate = () => {
         this.updateCanvas();
     }
     render() {
         return (
             <div>
-                <LevelSelect levels={levels} />
+                <LevelSelect levels={Levels} loadLevel={this.loadLevel} />
                 <canvas
                     key={this.state.key}
                     onClick={this.placeTool}
