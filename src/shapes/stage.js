@@ -80,6 +80,9 @@ export default class Stage {
 
         this.lines.push(ray);
         if (collision.obj) {
+            if (collision.obj.constructor.name === 'Collector') {
+                collision.obj.success = true;
+            }
             return collision.obj.cast(ray);
         }
 
@@ -88,6 +91,7 @@ export default class Stage {
 
     simulate() {
         this.lines = [];
+        this.collectors.forEach((collector) => { collector.success = false; })
         let rays = [].concat(this.emitters);
         let ray = null;
 

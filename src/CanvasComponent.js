@@ -43,9 +43,14 @@ export default class CanvasComponent extends Component {
         const context = this.refs.canvas.getContext('2d');
         context.beginPath();
         context.strokeStyle = '#00FF00';
+        context.fillStyle = '#00FF00';
         context.arc(collector.circle.center.x, collector.circle.center.y, collector.circle.radius,
             0, 2 * Math.PI);
-        context.stroke();
+        if (collector.success) {
+            context.fill();
+        } else {
+            context.stroke();
+        }
     }
 
     drawRectangle = (rect) => {
