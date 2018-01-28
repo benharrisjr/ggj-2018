@@ -21,22 +21,6 @@ export default class CanvasComponent extends Component {
         this.updateCanvas();
     }
 
-    // drawPrism = (prism) => {
-    //     const context = this.refs.canvas.getContext('2d');
-    //     context.beginPath();
-    //     context.moveTo(prism.line0.x, prism.line0.y);
-    //     context.lineTo(prism.line1.x, prism.line1.y);
-    //     context.lineTo(prism.line2.x, prism.line2.y);
-    //     context.fillStyle = '#ff0000';
-    //     context.fill();
-    //     // context.beginPath();
-    //     // context.moveTo(line.start.x, line.start.y);
-    //     // context.lineTo(line.end.x, line.end.y);
-    //     // context.lineWidth = line.width;
-    //     // context.strokeStyle = line.color;
-    //     // context.stroke();
-    // }
-
     drawCollector = (collector) => {
         const context = this.refs.canvas.getContext('2d');
         context.beginPath();
@@ -75,7 +59,7 @@ export default class CanvasComponent extends Component {
 
     }
     onMouseMove(e) {
-        if (this.state.isDrawing) {
+        if (this.state.isDrawing && (this.props.stage.tools.length + 1 <= this.state.maxMirrors)) {
             this.isMoving = true;
             this.state.points.array[this.state.points.size] = {
                 x: e.clientX - this.rect.left,
@@ -86,16 +70,20 @@ export default class CanvasComponent extends Component {
         };
     }
     onMouseDown(e) {
-        this.state.isDrawing = true;
-        this.state.points.array.push({
-            x: e.clientX - this.rect.left,
-            y: e.clientY - this.rect.top
-        });
-        this.state.points['size'] = this.state.points['array'].length
-        this.state.isDrawing = true
+        if(e.key == 'Shift'){
+            console.log('shift press here! ')
+        }else{
+            this.state.isDrawing = true;
+            this.state.points.array.push({
+                x: e.clientX - this.rect.left,
+                y: e.clientY - this.rect.top
+            });
+            this.state.points['size'] = this.state.points['array'].length
+            this.state.isDrawing = true
 
-        this.startX = e.clientX - this.rect.x
-        this.startY = e.clientY - this.rect.y;
+            this.startX = e.clientX - this.rect.x
+            this.startY = e.clientY - this.rect.y;
+        }
     }
     onMouseUp(e) {
         this.state.isDrawing = false;
@@ -111,7 +99,7 @@ export default class CanvasComponent extends Component {
         this.placeTool();
     }
     onTouchMove(e) {
-        if (this.state.isDrawing) {
+        if (this.state.isDrawing && (this.props.stage.tools.length + 1 <= this.state.maxMirrors)) {
             this.isMoving = true;
             this.state.points.array[this.state.points.size] = {
                 x: e.touches[0].clientX - this.rect.left,
@@ -157,9 +145,8 @@ export default class CanvasComponent extends Component {
     }
     updateCanvas = () => {
         this.props.stage.lines.forEach((currentLine) => this.drawLine(currentLine));
-        this.props.stage.tools.forEach((currentTool) => this.drawLine(currentTool.line));
+        this.props.stage.tools.forEach((currentTool) => this.drawTool(currentTool));
         this.props.stage.collectors.forEach((collector) => this.drawCollector(collector));
-        // this.drawPrism(this.stage);
     }
     removeTools = () => {
         this.props.stage.removeAll();
