@@ -76,7 +76,7 @@ export default class CanvasComponent extends Component {
     }
     onMouseMove(e) {
         if (this.state.isDrawing) {
-            this.isMoving = true
+            this.isMoving = true;
             this.state.points.array[this.state.points.size] = {
                 x: e.clientX - this.rect.left,
                 y: e.clientY - this.rect.top,
@@ -108,6 +108,42 @@ export default class CanvasComponent extends Component {
         this.state.points.array.pop();
         this.endX = e.clientX - this.rect.x;
         this.endY = e.clientY - this.rect.y;
+        this.placeTool();
+    }
+    onTouchMove(e) {
+        if (this.state.isDrawing) {
+            this.isMoving = true;
+            this.state.points.array[this.state.points.size] = {
+                x: e.touches[0].clientX - this.rect.left,
+                y: e.touches[0].clientY - this.rect.top,
+                w: 3,
+            };
+            this.drawPath(this.state.points);
+        };
+    }
+    onTouchStart(e) {
+        this.state.isDrawing = true;
+        this.state.points.array.push({
+            x: e.touches[0].clientX - this.rect.left,
+            y: e.touches[0].clientY - this.rect.top
+        });
+        this.state.points['size'] = this.state.points['array'].length
+        this.state.isDrawing = true
+
+        this.startX = e.touches[0].clientX - this.rect.x
+        this.startY = e.touches[0].clientY - this.rect.y;
+    }
+    onTouchEnd(e) {
+        this.state.isDrawing = false;
+        if (this.state.isMoving) {
+            this.state.isMoving = false;
+        }
+        else {
+            this.state.points['array'].pop()
+        }
+        this.state.points.array.pop();
+        this.endX = e.changedTouches[0].clientX - this.rect.x;
+        this.endY = e.changedTouches[0].clientY - this.rect.y;
         this.placeTool();
     }
     placeTool = (e) => {
@@ -147,6 +183,9 @@ export default class CanvasComponent extends Component {
                     onMouseMove={(e) => this.onMouseMove(e)}
                     onMouseDown={(e) => this.onMouseDown(e)}
                     onMouseUp={(e) => this.onMouseUp(e)}
+                    onTouchMove={(e) => this.onTouchMove(e)}
+                    onTouchStart={(e) => this.onTouchStart(e)}
+                    onTouchEnd={(e) => this.onTouchEnd(e)}
                     ref="canvas"
                     width={this.props.stage.width}
                     height={this.props.stage.height}
