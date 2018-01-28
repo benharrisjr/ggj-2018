@@ -17,6 +17,7 @@ export default class CanvasComponent extends Component {
         isMoving: false,
         maxMirrors: 5,
     }
+    Levels = Levels;
     componentDidMount() {
         this.context = this.refs.canvas.getContext('2d');
         this.rect = this.refs.canvas.getBoundingClientRect();
@@ -27,19 +28,7 @@ export default class CanvasComponent extends Component {
         context.clearRect(0, 0, this.refs.canvas.width, this.refs.canvas.height);
     }
     drawPrism = (prism) => {
-        const context = this.refs.canvas.getContext('2d');
-        context.beginPath();
-        context.moveTo(prism.line0.x, prism.line0.y);
-        context.lineTo(prism.line1.x, prism.line1.y);
-        context.lineTo(prism.line2.x, prism.line2.y);
-        context.fillStyle = '#ff0000';
-        context.fill();
-        // context.beginPath();
-        // context.moveTo(line.start.x, line.start.y);
-        // context.lineTo(line.end.x, line.end.y);
-        // context.lineWidth = line.width;
-        // context.strokeStyle = line.color;
-        // context.stroke();
+        prism.lines.forEach((line) => this.drawLine(line));
     }
 
     drawCollector = (collector) => {
@@ -116,9 +105,9 @@ export default class CanvasComponent extends Component {
         };
     }
     onMouseDown(e) {
-        if(e.key == 'Shift'){
+        if (e.key == 'Shift') {
             console.log('shift press here! ')
-        }else{
+        } else {
             this.state.isDrawing = true;
             this.state.points.array.push({
                 x: e.clientX - this.rect.left,
@@ -206,9 +195,7 @@ export default class CanvasComponent extends Component {
         this.updateCanvas();
     }
     loadLevel = (level) => {
-        console.log("hey");
-        console.log(level);
-        this.props.stage.initialize(Levels[level]);
+        this.props.stage.initialize(this.Levels[level]);
         this.clearCanvas()
         this.updateCanvas();
     }
@@ -218,7 +205,7 @@ export default class CanvasComponent extends Component {
     render() {
         return (
             <div>
-                <LevelSelect levels={Levels} loadLevel={this.loadLevel} />
+                <LevelSelect levels={Levels} loadLevel={(level) => this.loadLevel(level)} />
                 <canvas
                     key={this.state.key}
                     onClick={this.placeTool}

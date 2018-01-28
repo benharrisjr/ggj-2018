@@ -3,40 +3,80 @@ import Line from './line';
 
 export default class Prism {
     constructor(line0, line1, line2) {
-        this.line0 = line0;
-        this.line1 = line1;
-        this.line2 = line2;
+        this.lines = [
+            line0,
+            line1,
+            line2
+        ];
         this.loss = .1;
-        this.normal0 = this.line0.vector.normal;
-        this.normal1 = this.line1.vector.normal;
-        this.normal2 = this.line2.vector.normal;
+
+        this.refraction = 1.333;
     }
 
     cast(ray) {
-        let refRay = ray.end.difference(ray.start).normalized;
-        let dot = 2 * refRay.dot(this.normal)
+        let line = this.intersectionLine(ray);
+        let point = ray.end;
+        let normal = line.vector.normal;
+        let cos = normal.dot(ray.vector.normalized);
 
-        let dx = refRay.x - dot * this.normal.x
-        let dy = refRay.y - dot * this.normal.y
+        if (cos < 0) {
+            normal = normal.negative;
+            cos = normal.dot(ray.vector.normalized);
+        }
 
-        let start = this.intersectPoint(ray);
+        let refractiveIndex = this.refraction;
 
-        let r1 = new Vector(start.x + dx, start.y + dy);
-
-        let result = [
-            new Line(start, r1, "#FF0000", ray.width, ray.intensity - this.loss),
-            new Line(start, r1, "#00FF00", ray.width, ray.intensity - this.loss),
-            new Line(start, r1, "#0000FF", ray.width, ray.intensity - this.loss),
-        ];
-
-        return result;
+        let refractedVector = ray.vector.normalized.multiply(refractiveIndex)
+        let coeff = refractiveIndex * cos;
+        coeff -= Math.sqrt(1 - refractiveIndex * refractiveIndex * (1 - cos * cos));
+        refractedVector = refractedVector.add(coeff * normal.negative);
+        return new Line(point.add(new Vector(50, 50)), refractedVector);
     }
 
-    intersect(ray) {
-        return this.line0.intersects(ray) || this.line1.intersects(ray) || this.line2.intersects(ray);
+    intersectsWith(ray) {
+        return this.lines.reduce((intersects, line) => {
+            return line.intersectsWith(ray) || intersects;
+        }, false);
     }
 
-    intersectPoint(ray) {
-        return this.line0.intersectPoint(ray) || this.line1.intersectPoint(ray) || this.line2.intersectPoint(ray);
+    intersectionPoint(ray) {
+        let points = [];
+        this.lines.forEach((line) => {
+            if (line.intersectsWith(ray)) {
+                points.push(line.intersectionPoint(ray));
+            }
+        });
+
+        let bestPoint = points.reduce((best, point) => {
+            if (!point) {
+                return best;
+            }
+
+            if (!best) {
+                return point;
+            }
+
+            if (ray.start.distance(point) < ray.start.distance(best)) {
+                return point;
+            }
+
+            return best;
+        }, null);
+
+        return bestPoint;
+    }
+
+    intersectionLine(ray) {
+        let minDistance = Number.MAX_VALUE;
+        let bestLine;
+        this.lines.forEach((line) => {
+            if (line.intersectsWith(ray)) {
+                if (line.intersectionPoint(ray).distance(ray.start) < minDistance) {
+                    bestLine = line;
+                }
+            }
+        });
+
+        return bestLine;
     }
 }

@@ -56,6 +56,10 @@ export default class Line {
         return new Vector(intersectionX, intersectionY);
     }
 
+    get normal() {
+        return this.vector.normal;
+    }
+
     get vector() {
         return this.end.difference(this.start);
     }
