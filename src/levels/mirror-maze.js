@@ -21,6 +21,7 @@ const MirrorMaze = {
         new Mirror(new Line(new Vector(0, 0), new Vector(0, 600), '#0088FF', 6)),
         new Mirror(new Line(new Vector(800, 0), new Vector(800, 600), '#0088FF', 6)),
         new Mirror(new Line(new Vector(0, 600), new Vector(800, 600), '#0088FF', 6)),
-    ]
+    ],
+    completed:false,
 }
 export default MirrorMaze;

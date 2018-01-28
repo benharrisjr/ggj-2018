@@ -11,7 +11,7 @@ export default class Stage {
     constructor(width, height, level) {
         this.width = width;
         this.height = height;
-
+        this.level = level;
         //Determine the maximum length for our rays
         this.maxLength = Math.sqrt(width * width + height * height);
 
@@ -83,6 +83,7 @@ export default class Stage {
         if (collision.obj) {
             if (collision.obj.constructor.name === 'Collector') {
                 collision.obj.success = true;
+                this.level.completed = true;
             }
             return collision.obj.cast(ray);
         }

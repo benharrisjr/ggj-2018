@@ -16,7 +16,8 @@ const Precision = {
     ],
     collectors: [
         new Collector(new Circle(new Vector(400, 300), 5))
-    ]
+    ],
+    completed:false,
 }
 
 export default Precision;
