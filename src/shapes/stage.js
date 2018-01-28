@@ -26,6 +26,7 @@ export default class Stage {
     }
     undo() {
         this.tools.pop();
+        this.simulate();
     }
 
     removeAll() {

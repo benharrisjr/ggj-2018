@@ -156,18 +156,19 @@ export default class CanvasComponent extends Component {
         }
     }
     updateCanvas = () => {
-        this.props.stage.simulate();
         this.props.stage.lines.forEach((currentLine) => this.drawLine(currentLine));
         this.props.stage.tools.forEach((currentTool) => this.drawLine(currentTool.line));
         this.props.stage.collectors.forEach((collector) => this.drawCollector(collector));
         // this.drawPrism(this.stage);
     }
     removeTools = () => {
-        this.state.stage.removeAll();
+        this.props.stage.removeAll();
         this.setState({ key: Math.random() });
     }
     undoTool = () => {
         this.props.stage.undo();
+        const context = this.refs.canvas.getContext('2d');
+        context.clearRect(0, 0, this.refs.canvas.width, this.refs.canvas.height)
         this.updateCanvas();
     }
     componentDidUpdate = () => {
