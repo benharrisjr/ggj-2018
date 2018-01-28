@@ -4,6 +4,10 @@ export default class Vector {
         this.y = y;
     }
 
+    add(vec) {
+        return new Vector(this.x + vec.x, this.y + vec.y);
+    }
+
     compareDistance(vec) {
         let dx = this.x - vec.x;
         let dy = this.y - vec.y;
@@ -38,6 +42,10 @@ export default class Vector {
 
     get length() {
         return Math.sqrt(this.x * this.x + this.y * this.y);
+    }
+
+    get negative() {
+        return new Vector(-this.x, -this.y);
     }
 
     get normalized() {

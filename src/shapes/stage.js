@@ -44,11 +44,6 @@ export default class Stage {
     }
 
     findCollision(ray) {
-        //Stretch ray to maximum length for line/line intersections
-        let vector = ray.vector.multiply(this.maxLength);
-        ray.end.x = ray.start.x + vector.x;
-        ray.end.y = ray.start.y + vector.y;
-
         let minDistance = this.maxLength;
         let distance;
         let intersectionPoint;
@@ -73,6 +68,10 @@ export default class Stage {
     }
 
     processRay(ray) {
+        //Stretch ray to maximum length for line/line intersections
+        let vector = ray.vector.multiply(this.maxLength);
+        ray.end = ray.start.add(vector);
+
         let collision = this.findCollision(ray);
 
         if (collision.point) {
