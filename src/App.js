@@ -8,7 +8,7 @@ import Levels from './levels/levels';
 class App extends Component {
   constructor(props) {
     super(props);
-    let stage = new Stage(800, 600, Levels['Precision']);
+    let stage = new Stage(800, 600, Levels['Mirror Maze']);
     //stage.initialize(Levels['Mirror Maze']);
     this.state = {
       stage: stage,
