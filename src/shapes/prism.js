@@ -18,10 +18,18 @@ export default class Prism {
         let point = ray.end;
         let normal = line.vector.normal;
         let cos = normal.dot(ray.vector.normalized);
+
+        if (cos < 0) {
+            normal = normal.negative;
+            cos = normal.dot(ray.vector.normalized);
+        }
+
         let refractiveIndex = this.refraction;
 
         let refractedVector = ray.vector.normalized.multiply(refractiveIndex)
-        refractedVector = refractedVector.add(line.vector.normal.multiply(refractiveIndex * cos - Math.sqrt(1 - refractiveIndex * refractiveIndex * (1 - cos * cos))));
+        let coeff = refractiveIndex * cos;
+        coeff -= Math.sqrt(1 - refractiveIndex * refractiveIndex * (1 - cos * cos));
+        refractedVector = refractedVector.add(coeff * normal.negative);
         return new Line(point.add(new Vector(50, 50)), refractedVector);
     }
 

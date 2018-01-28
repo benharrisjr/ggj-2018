@@ -8,7 +8,7 @@ import Mirror from "../shapes/mirror";
 import Prism from '../shapes/prism';
 
 const p1 = new Vector(400, 290);
-const p2 = new Vector(400, 310);
+const p2 = new Vector(390, 310);
 const p3 = new Vector(410, 300);
 
 const PrismLevel = {
